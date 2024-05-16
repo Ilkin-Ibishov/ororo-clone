@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import { Home } from "./layouts/Home"
-import { Contentpage } from "./layouts/ContentPage";
+import { Home } from "./pages/Home"
+import { Contentpage } from "./pages/Content";
 
 function App() {
 

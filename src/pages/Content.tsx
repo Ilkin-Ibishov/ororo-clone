@@ -1,26 +1,26 @@
-// Contentpage.tsx
-import { useEffect, useState, useRef } from "react";
-import { Header } from "../components/Header";
-import { getSpecificShow, getSpecificShowTrailer } from "../api/requests";
-import { TVShow } from "../types/ShowTypes";
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import { TrailerFrame } from "../components/TrailerFrame";
-import { ContentInfo } from "../components/ContentInfo";
+import { useEffect, useState, useRef } from "react"
+import { Header } from "../components/Header"
+import { getSpecificShow, getSpecificShowTrailer } from "../api/requests"
+import { TVShow } from "../types/ShowTypes"
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies'
+import { TrailerFrame } from "../components/TrailerFrame"
+import { ContentInfo } from "../components/ContentInfo"
+import { TvShowSeasons } from "../components/TvShowSeasons"
 
 export const Contentpage = () => {
     const id = localStorage.getItem("directedPageID") as string;
-    const [data, setData] = useState<TVShow | null>(null);
-    const [trailerLinks, setTrailerLinks] = useState<string[]>([]);
-    const [clickedTrailerIndex, setClickedTrailerIndex] = useState<number>(-1);
-    const overlayRef = useRef<HTMLDivElement>(null);
-
+    const [data, setData] = useState<TVShow | null>(null)
+    const [trailerLinks, setTrailerLinks] = useState<string[]>([])
+    const [clickedTrailerIndex, setClickedTrailerIndex] = useState<number>(-1)
+    const overlayRef = useRef<HTMLDivElement>(null)
+    
     useEffect(() => {
-        getSpecificShow(parseInt(id, 10)).then((response) => setData(response));
-        getSpecificShowTrailer(parseInt(id, 10)).then((response) => setTrailerLinks(response));
+        getSpecificShow(parseInt(id, 10)).then((response) => setData(response))
+        getSpecificShowTrailer(parseInt(id, 10)).then((response) => setTrailerLinks(response))
     }, [id]);
 
     const handleTrailerClick = (index: number) => {
-        setClickedTrailerIndex(index);
+        setClickedTrailerIndex(index)
     }
 
     useEffect(() => {
@@ -34,7 +34,6 @@ export const Contentpage = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
-    console.log(data);
     
     return (
         <div className="w-screen h-screen">
@@ -45,7 +44,7 @@ export const Contentpage = () => {
                 overlayRef={overlayRef} 
             />
             <Header />
-            <div className="px-10 mt-3 flex flex-row">
+            <div className=" px-40 mt-3 flex flex-row">
                 <div className="w-[25%]">
                     <img className="w-64" src={`${"https://image.tmdb.org/t/p/w500" + (data?.poster_path || '')}`} alt="" />
                     <div className="flex flex-row w-fit gap-1">
@@ -62,7 +61,13 @@ export const Contentpage = () => {
                     </div>
                     <ContentInfo data={data} />
                 </div>
-                <div className="w-[75%] bg-black h-screen"></div>
+                <div className="w-[60%] pl-20">
+                    <div className="pb-5">
+                        <h2 className="text-xl font-bold">{data?.name}</h2>
+                        <p className="show-overview-css">{data?.overview}</p>
+                    </div>
+                    {data !== null &&<TvShowSeasons data={data} />}
+                </div>
             </div>
         </div>
     );

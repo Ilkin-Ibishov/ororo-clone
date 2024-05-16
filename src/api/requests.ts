@@ -81,3 +81,20 @@ export const getSpecificShowTrailer=async(id:number)=>{
     throw error;
   }
   }
+
+export const getShowSeasonEpisodes =async(show_id:number, season_number:number)=>{
+  const url = `https://api.themoviedb.org/3/tv/${show_id}/season/${season_number}?language=en-US`;
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${Auth_Token}`
+    }
+  }
+  try {
+    const response = await axios(url, options);
+    return response.data 
+  } catch (error) {
+    console.error('error:', error);
+  }
+}
