@@ -2,9 +2,9 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { TVShow, Episode } from '../types/ShowTypes';
+import { TVShow } from '../types/ShowTypes';
 import { useEffect, useState } from 'react';
-import { getShowSeasonEpisodes } from '../api/requests';
+import { getContenteasonEpisodes } from '../api/requests';
 import { Episodes } from './Episodes';
 import { SelectedTVShow } from '../types/ShowEpisodesTypes';
 
@@ -20,7 +20,7 @@ interface ContentInfoProps {
         setValue(newValue);
     };
     useEffect(() => {
-        getShowSeasonEpisodes(data?.id, value).then(response=> setEpisodesData(response))
+        getContenteasonEpisodes(data?.id, value).then(response=> setEpisodesData(response))
     }, [value])
     
     return (<>
@@ -38,7 +38,6 @@ interface ContentInfoProps {
             </Tabs>
         </Box>
         {episodesData && <Episodes episodesData={episodesData} />}
-
-        </>
+    </>
     );
 }

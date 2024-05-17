@@ -1,24 +1,47 @@
 import axios from 'axios';
-import { VideoResponse, VideoResult } from '../types/ShowTypes';
+import { VideoResult } from '../types/ShowTypes';
 const Auth_Token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGMxOTYzOGRhYjE5MDBhNWNlZDRkMzgwM2M4OGZkMSIsInN1YiI6IjY2NDI1NmY4YzYxYTQyNGEzNGU3ZjU3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2ciyG6SR6CZYOFyoII0j6QUKAVviuNu1OV_q-k8e8q0"
+export const orderOptionsMovie = [
+  { value: "popularity", text: "Popularity" },
+  { value: "title", text: "Title" },
+  { value: "revenue", text: "Revenue" },
+  { value: "primary_release_date", text: "Release date" },
+  { value: "vote_count", text: "Rating" },
+]
+export const orderOptionsShow = [
+  { value: "popularity", text: "Popularity" },
+  { value: "name", text: "Title" },
+  { value: "first_air_date", text: "First air date" },
+  { value: "vote_count", text: "Rating" },
+]
 
-
-export const getShows=async()=>{
-    const url = 'https://api.themoviedb.org/3/discover/tv';
+export const getContent=async(selectedContent:string, page:number, sort_by:string)=>{
+  console.log(page);
+  
+  const url = `https://api.themoviedb.org/3/discover/${selectedContent}`
   const options = {
     method: 'GET',
     headers: {
       accept: 'application/json',
       Authorization: `Bearer ${Auth_Token}`
     },
-    params: {
+    params: selectedContent === 'tv'?
+    {
       include_adult: false,
       include_null_first_air_dates: false,
       language: 'en-US',
-      page: 1,
-      sort_by: 'popularity.desc'
+      page: page +1,
+      sort_by: sort_by,
+      with_original_language: 'en'
     }
-  };
+    :{
+      include_adult: false,
+      include_video: false,
+      language: 'en-US',
+      page: page + 1,
+      sort_by: sort_by
+    }
+  }
 
   try {
     const response = await axios(url, options);
@@ -30,7 +53,7 @@ export const getShows=async()=>{
 }
 
 export const getSpecificShow=async(id:number)=>{
-  const url = `https://api.themoviedb.org/3/tv/${id}?language=en-US`;
+  const url = `https://api.themoviedb.org/3/tv/${id}?language=en-US`
   const options = {
     headers: {
       accept: 'application/json',
@@ -46,7 +69,7 @@ export const getSpecificShow=async(id:number)=>{
   }
   }
 export const getGenres=async(selected:string)=>{
-  const url = `https://api.themoviedb.org/3/genre/${selected}/list?language=en`;
+  const url = `https://api.themoviedb.org/3/genre/${selected}/list?language=en`
   const options = {
     method: 'GET',
     headers: {
@@ -63,7 +86,7 @@ export const getGenres=async(selected:string)=>{
 }
 
 export const getSpecificShowTrailer=async(id:number)=>{
-  const url = `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`;
+  const url = `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`
   const options = {
     headers: {
       accept: 'application/json',
@@ -72,7 +95,7 @@ export const getSpecificShowTrailer=async(id:number)=>{
   };
   try {
     const response = await axios(url, options);
-    const hrefs: string[] = response.data.results.map((result: VideoResult) => result.key);
+    const hrefs: string[] = response.data.results.map((result: VideoResult) => result.key)
     console.log(response.data.results);
     
     return hrefs;
@@ -82,8 +105,8 @@ export const getSpecificShowTrailer=async(id:number)=>{
   }
   }
 
-export const getShowSeasonEpisodes =async(show_id:number, season_number:number)=>{
-  const url = `https://api.themoviedb.org/3/tv/${show_id}/season/${season_number}?language=en-US`;
+export const getContenteasonEpisodes =async(show_id:number, season_number:number)=>{
+  const url = `https://api.themoviedb.org/3/tv/${show_id}/season/${season_number}?language=en-US`
   const options = {
     method: 'GET',
     headers: {

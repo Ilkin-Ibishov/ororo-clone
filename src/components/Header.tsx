@@ -2,8 +2,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import HeaderButton from './HeaderButton';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 
 const languages = [
   { fullLanguageText: "English", shortLanguageText: "En" },
@@ -13,21 +14,23 @@ const languages = [
   { fullLanguageText: "Portuguese", shortLanguageText: "Pt" },
   { fullLanguageText: "Turkish", shortLanguageText: "Tr" },
 ];
-
-export const Header = () => {
+interface Header {
+  selectedContent: string;
+  setselectedContent: React.Dispatch<React.SetStateAction<string>>
+}
+export const Header: React.FC<Header> = ({selectedContent, setselectedContent}) => {
   const [currentLanguage, setCurrentLanguage] = useState(languages[0].shortLanguageText);
   const [islanguageBarVisible, setLanguageBarVisible] = useState(false);
-  const [isInputFocused, setInputFocused] = useState(false);
-  const [selectedPage, setselectedPage] = useState("tv-shows");
-  const navButtonCss = "bg-[#3d4753] text-white";
+  const [isInputFocused, setInputFocused] = useState(false)
+  const navButtonCss = "bg-[#3d4753] text-white"
 
   return (
     <>
-      <div className='flex z-50 sticky top-0 flex-row items-center justify-between px-14 bg-[#2E353D] h-[3.75rem] min-w-[50rem] w-full text-color-css-header'>
+      <div className='flex z-50 sticky top-0 flex-row items-center justify-between px-14 bg-[#2E353D] h-[3.75rem] min-w-[50rem] w-screen -mx-5 text-color-css-header'>
         <div className='flex flex-row'>
           <Link to={'/'}><img className='w-28 pr-4' src="https://ororo.tv/assets/logo-7357121603f7afa41b456a871fdbff02dafe08b8cefff7a7e7cb320a57080bdc.svg" alt="" /></Link>
-          <a onClick={() => setselectedPage('tv-shows')} className={`text-base p-3 ${selectedPage === 'tv-shows' && navButtonCss} hover:text-white cursor-pointer`}>TV Shows</a>
-          <a onClick={() => setselectedPage('movies')} className={`text-base p-3 ${selectedPage === 'movies' && navButtonCss} hover:text-white cursor-pointer`}>Movies</a>
+          <Link to={'/shows'} onClick={() => setselectedContent('tv')} className={`text-base p-3 ${selectedContent === 'tv' && navButtonCss} hover:text-white cursor-pointer`}>TV Shows</Link>
+          <Link to={'/movies'} onClick={() => setselectedContent('movie')} className={`text-base p-3 ${selectedContent === 'movie' && navButtonCss} hover:text-white cursor-pointer`}>Movies</Link>
         </div>
         <div className='flex justify-between items-center gap-5'>
           <div hidden={!islanguageBarVisible} onBlur={() => setLanguageBarVisible(false)} className='absolute top-[3.75rem]'>

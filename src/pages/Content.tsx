@@ -7,7 +7,11 @@ import { TrailerFrame } from "../components/TrailerFrame"
 import { ContentInfo } from "../components/ContentInfo"
 import { TvShowSeasons } from "../components/TvShowSeasons"
 
-export const Contentpage = () => {
+interface Contentpage {
+    selectedContent: string;
+    setselectedContent: React.Dispatch<React.SetStateAction<string>>
+  }
+export const Contentpage: React.FC<Contentpage> = ({selectedContent, setselectedContent}) => {
     const id = localStorage.getItem("directedPageID") as string;
     const [data, setData] = useState<TVShow | null>(null)
     const [trailerLinks, setTrailerLinks] = useState<string[]>([])
@@ -43,7 +47,7 @@ export const Contentpage = () => {
                 setClickedTrailerIndex={setClickedTrailerIndex} 
                 overlayRef={overlayRef} 
             />
-            <Header />
+            <Header selectedContent={selectedContent} setselectedContent={setselectedContent} />
             <div className=" px-40 mt-3 flex flex-row">
                 <div className="w-[25%]">
                     <img className="w-64" src={`${"https://image.tmdb.org/t/p/w500" + (data?.poster_path || '')}`} alt="" />

@@ -1,11 +1,16 @@
-import { Header } from "../components/Header"
-import { ContentList } from "../components/ContentList"
+import React from 'react';
+import { Header } from '../components/Header';
+import { ContentList } from '../components/ContentList';
 
-export const Home = () => {
-  return (<div className=" w-full xs:scale-50">
-    <Header />
-    <ContentList />
-  </div>
-    
-  )
+interface Home {
+  selectedContent: string;
+  setselectedContent: React.Dispatch<React.SetStateAction<string>>
 }
+export const Home: React.FC<Home> = ({selectedContent, setselectedContent}) => {
+  return (
+    <>
+      <Header selectedContent={selectedContent} setselectedContent={setselectedContent} />
+      <ContentList selectedContent={selectedContent} />
+    </>
+  );
+};

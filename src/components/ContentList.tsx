@@ -1,87 +1,96 @@
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import ReorderIcon from '@mui/icons-material/Reorder';
 import { useState, useEffect } from 'react';
-import { getShows, getGenres } from '../api/requests';
-import { Shows, Show, GenresResponse } from '../types/types';
-import { Link } from 'react-router-dom';
+import { getContent, getGenres } from '../api/requests';
+import { Shows, Show, GenresResponse, Movie } from '../types/types';
+import { ContentListCard } from './ContentListCard';
+import ascendingIcon from '../assets/ascending-sorting.png'
+import descendingIcon from '../assets/descending-sorting.png'
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { orderOptionsMovie } from '../api/requests';
+import { orderOptionsShow } from '../api/requests';
 
-const orderOptions = [
-  { value: "popularity", text: "Popularity" },
-  { value: "rating", text: "Rating" },
-  { value: "name", text: "Name" },
-  { value: "year", text: "Year" },
-  { value: "update_date", text: "Update date" },
-  { value: "publication_date", text: "Publication date" }
-];
+interface ContentList {
+  selectedContent: string
+}
 
-export const ContentList = () => {
-  const [totalResults, setTotalResults] = useState(0)
-  const [isFilterHidden, setFilterHidden] = useState(true)
-  const [showPreview, setShowPreview] = useState(0)
-  const [data, setData] = useState<Shows | null>(null)
-  const [genresTypes, setgenresTypes] = useState<GenresResponse | null>(null)
+export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
+  const orderOptions = selectedContent === 'movie' ? orderOptionsMovie : orderOptionsShow
 
-  useEffect(()=> {
-    getGenres('tv').then((response:GenresResponse)=>{
-      setgenresTypes(response)
-    })
-    getShows().then((response:Shows)=>{setData(response)})
-    setTotalResults(data?data?.total_results:0)
-  }, [])
+  const [orderType, setOrderType] = useState<string>('asc')
+  const [selectedSortBy, setSelectedSortBy] = useState<string>(orderOptions[0].value)
+  const [totalResults, setTotalResults] = useState<number>(0)
+  const [isFilterHidden, setFilterHidden] = useState<boolean>(true)
+  const [data, setData] = useState<Shows[]>([])
+  const [genresTypes, setGenresTypes] = useState<GenresResponse | null>(null);
+  const [page, setPage] = useState<number>(1)
+
+  useEffect(() => {
+    setData([])
+    setPage(1)
+  }, [selectedContent, selectedSortBy, orderType])
   
+  useEffect(() => {
+    if(selectedContent !== undefined){
+      console.log(data)
+      const sort_by = selectedSortBy + '.' + orderType
+      getGenres(selectedContent as string).then((response: GenresResponse) => {
+        setGenresTypes(response)
+      })
+      getContent(selectedContent as string, page as number, sort_by).then((response: Shows) => {
+        setData(prevData => [...prevData, response])
+        setTotalResults(response ? response?.total_results : 0)
+      })
+    }
+    console.log(selectedContent)
+  }, [selectedContent, page, selectedSortBy, orderType])
+
+  const handleScroll = () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight*0.8) {
+      setPage(prevPage => prevPage + 1)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [])
+
   return (
     <div className='md:px-8 lg:px-[5%]'>
-      <div hidden={isFilterHidden} className='min-h-60 mt-7 border-r-4 shadow-custom-content min-w-[100%] mx-auto'>
-        <title>Choose TV show</title>
-        <div>
-          {/* Content here */}
+      <div hidden={isFilterHidden} className=' relative min-h-60 bg-black mt-7 border-r-4 shadow-custom-content w-52 mx-auto'>
+            <title>Choose TV show</title>
+            <div></div>
         </div>
-      </div>
-      <div className='flex flex-row pt-12 pb-10  items-center justify-between gap-[20%] max-w-[screen]'>
-        <div className="flex flex-col min-w-[121px]">
+      <div className='flex flex-row pt-12 pb-10 mx-4 items-center justify-between gap-5 md:gap-10 max-w-[screen]'>
+        <div className="flex flex-col min-w-[120px]">
           <span color="#8896a1">Total</span>
           <span className="text-xl font-normal text-nowrap">{totalResults} TV Shows</span>
         </div>
         <div onClick={()=>setFilterHidden(!isFilterHidden)} className="w-full md:w-1/3 h-10 border-r-4 min-w-[250px] bg-[#2196f3] flex justify-center items-center">
-          <FilterAltIcon htmlColor='white' />
-          <span className='text-white '>Choose TV show</span>
+            <FilterAltIcon htmlColor='white' />
+            <span className='text-white '>Choose TV show</span>
         </div>
         <div className='flex flex-row'>
-          <div className='bg-[#2E353D] min-h-8 w-10 flex justify-center items-center border-r-4'>
-            <ReorderIcon htmlColor='white' />
+          <div className='bg-[#2E353D] min-h-8 w-10 p-1 flex justify-center items-center border-r-4 cursor-pointer'>
+            {orderType === 'asc'?<img onClick={()=>setOrderType('desc')} src={ascendingIcon} alt="" />: <img onClick={()=>setOrderType('asc')} src={descendingIcon} alt="" />}
           </div>
           <div>
-            <select className='bg-[#2E353D] pl-3 pr-11 text-white h-full' id="cars">
+            <div className='bg-[#2E353D] pl-3 pr-11 text-white h-full' id="popularity">
+
               {orderOptions.map((item) => (
-                <option className='bg-white text-black' value={item.value} key={item.value}>{item.text}</option>
+                <option onClick={()=>setSelectedSortBy(item.value)} className='bg-white text-black' value={item.value} key={item.value}>{item.text}</option>
               ))}
-            </select>
+            </div>
           </div>
         </div>
       </div>
-      <div className=' gap-6 grid grid-cols-5 cssClass-text'>
-          {data&& data.results.map((item:Show)=>(
-            <Link onClick={()=>{localStorage.setItem("directedPageID", item.id.toString())}} key={item.id} to={`/${item.name}`}>
-              <div onMouseEnter={()=>setShowPreview(item.id)} onMouseLeave={()=>setShowPreview(0)} className='w-[203px] h-[304px]'>
-              <div hidden={showPreview === item.id}><img src={`${"https://image.tmdb.org/t/p/w500"+item.poster_path}`} alt="" /></div>
-              <div hidden={showPreview !== item.id} className={`bg-[#2E353D] p-5 ${showPreview === item.id && "flex flex-col gap-1 relative w-[250px] -top-6 -left-5 rounded-sm h-[350px]"}`}>
-                <span className='text-lg font-semibold'>{item.name}</span>
-                <div className='flex flex-row flex-wrap gap-2 font-size-css'>
-                  {item.genre_ids.map(genre_id => {
-                    const genre = genresTypes?.genres.find(g => g.id === genre_id);
-                    return genre ? <p className='pr-1' key={genre_id}>{genre.name}</p> : '';
-                  }).filter(Boolean)}
-                </div>
-                <div className='flex flex-row font-size-css gap-1'>
-                  <div>{item.first_air_date.substring(0, 4)}</div>
-                  <div>Raiting: {parseFloat(item.vote_average.toFixed(1))}</div>
-                </div>
-                <p className='description-css'>{item.overview}</p>
-              </div>
-            </div>
-            </Link>
-            
-          ))}
+      <div className=' mx-10 md:mx-0'>
+        <div className=' gap-x-60 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
+            {data.map((items: Shows) => (
+              items.results.filter((item)=>item.poster_path !== null && item?.original_language === 'en' && (selectedContent ==='tv'?item?.origin_country.find((item)=>item ==="US"): true )).map((item: Show | Movie, index: number) => (
+                <ContentListCard key={index} item={item} genresTypes={genresTypes} />
+              ))
+            ))}
+        </div>
       </div>
     </div>
   );

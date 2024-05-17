@@ -1,5 +1,5 @@
 import { SelectedTVShow } from "../types/ShowEpisodesTypes";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface EpisodesProps {
     episodesData: SelectedTVShow | null;
@@ -7,6 +7,10 @@ interface EpisodesProps {
 
 export const Episodes: React.FC<EpisodesProps> = ({ episodesData }) => {
     const [descriptionVisible, setDescriptionVisible] = useState(0)
+    useEffect(() => {
+      setDescriptionVisible(0)
+    }, [episodesData])
+    
     const formatDate = (dateString: string) => {
         const episodeDate = new Date(dateString);
         const currentDate = new Date();
