@@ -52,7 +52,7 @@ export const Contentpage: React.FC<Contentpage> = ({selectedContent, setselected
                 <div className="w-[25%]">
                     <img className="w-64" src={`${"https://image.tmdb.org/t/p/w500" + (data?.poster_path || '')}`} alt="" />
                     <div className="flex flex-row w-fit gap-1">
-                        {trailerLinks?.map((link, index) => (
+                        {trailerLinks?.map((_link, index) => (
                             index > 2 ? null : (
                                 <div onClick={() => handleTrailerClick(index)} key={index} className="w-20 cursor-pointer">
                                     <div className="flex items-center mt-4 bg-[#888] py-1 px-[0.5] w-20 rounded-sm">
