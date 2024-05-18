@@ -22,6 +22,7 @@ export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
   const [data, setData] = useState<Shows[]>([])
   const [genresTypes, setGenresTypes] = useState<GenresResponse | null>(null);
   const [page, setPage] = useState<number>(1)
+  const [sortingOptionsVisible, setSortingOptionsVisible] = useState(false)
 
   useEffect(() => {
     setData([])
@@ -30,7 +31,6 @@ export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
   
   useEffect(() => {
     if(selectedContent !== undefined){
-      console.log(data)
       const sort_by = selectedSortBy + '.' + orderType
       getGenres(selectedContent as string).then((response: GenresResponse) => {
         setGenresTypes(response)
@@ -40,7 +40,6 @@ export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
         setTotalResults(response ? response?.total_results : 0)
       })
     }
-    console.log(selectedContent)
   }, [selectedContent, page, selectedSortBy, orderType])
 
   const handleScroll = () => {
@@ -74,12 +73,15 @@ export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
             {orderType === 'asc'?<img onClick={()=>setOrderType('desc')} src={ascendingIcon} alt="" />: <img onClick={()=>setOrderType('asc')} src={descendingIcon} alt="" />}
           </div>
           <div>
-            <div className='bg-[#2E353D] pl-3 pr-11 text-white h-full' id="popularity">
-
-              {orderOptions.map((item) => (
-                <option onClick={()=>setSelectedSortBy(item.value)} className='bg-white text-black' value={item.value} key={item.value}>{item.text}</option>
-              ))}
+            <div className='bg-[#2E353D] text-center flex flex-row items-center text-white h-10 min-w-40 text-nowrap' id="popularity">
+              <div onClick={()=>setSortingOptionsVisible(prev=>!prev)}>{orderOptions?.find((option) => option.value === selectedSortBy)?.text}</div>
+              <div className=' relative top-20'>
+                {sortingOptionsVisible && orderOptions.map((item) => (
+                  <option onClick={()=>setSelectedSortBy(item.value)} className='bg-white text-black' value={item.value} key={item.value}>{item.text}</option>
+                ))}
+              </div>
             </div>
+            
           </div>
         </div>
       </div>

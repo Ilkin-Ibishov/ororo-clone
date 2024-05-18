@@ -17,6 +17,7 @@ interface ContentInfoProps {
     const [value, setValue] = React.useState(0);
     const [episodesData, setEpisodesData] = useState<SelectedTVShow | null>(null)
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+        event.target
         setValue(newValue);
     };
     useEffect(() => {
