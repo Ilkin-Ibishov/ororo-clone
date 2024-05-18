@@ -2,6 +2,7 @@
 import React from 'react';
 import { TVShow } from '../types/ShowTypes';
 import { countries } from 'countries-list';
+import { Country } from '../types/types';
 
 interface ContentInfoProps {
   data: TVShow | null;
@@ -20,7 +21,7 @@ export const ContentInfo: React.FC<ContentInfoProps> = ({ data }) => {
             ))}
           </React.Fragment>
         </p>
-        <p>Countries: {(countries[data.origin_country[0] as keyof typeof countries] as any)?.name}</p>
+        <p>Countries: {(countries[data.origin_country[0] as keyof typeof countries] as Country)?.name}</p>
         <p>Duration: {data.episode_run_time}min</p>
         <p>Status: {data.in_production? "Returning Series": "Ended"}</p>
       </div>

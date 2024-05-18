@@ -59,3 +59,13 @@ export interface Genre {
 export interface GenresResponse {
     genres: Genre[];
   }
+
+export interface Country {
+  capital: string;
+  continent: string;
+  currency: string[];
+  languages: string[];
+  name: string;
+  native: string;
+  phone: number[];
+}
