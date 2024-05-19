@@ -7,6 +7,7 @@ import descendingIcon from '../assets/descending-sorting.png'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { orderOptionsMovie } from '../api/requests';
 import { orderOptionsShow } from '../api/requests';
+import { FilterDropwDown } from './FilterDropDown';
 
 interface ContentList {
   selectedContent: string
@@ -14,7 +15,6 @@ interface ContentList {
 
 export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
   const orderOptions = selectedContent === 'movie' ? orderOptionsMovie : orderOptionsShow
-
   const [orderType, setOrderType] = useState<string>('asc')
   const [selectedSortBy, setSelectedSortBy] = useState<string>(orderOptions[0].value)
   const [totalResults, setTotalResults] = useState<number>(0)
@@ -22,7 +22,6 @@ export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
   const [data, setData] = useState<Shows[]>([])
   const [genresTypes, setGenresTypes] = useState<GenresResponse | null>(null);
   const [page, setPage] = useState<number>(1)
-  const [sortingOptionsVisible, setSortingOptionsVisible] = useState(false)
 
   useEffect(() => {
     setData([])
@@ -54,7 +53,7 @@ export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
   }, [])
 
   return (
-    <div className='md:px-8 lg:px-[5%]'>
+    <div className='md:px-8 lg:px-[5%] bg-[#ECEFF1]'>
       <div hidden={isFilterHidden} className=' relative min-h-60 bg-black mt-7 border-r-4 shadow-custom-content w-52 mx-auto'>
             <title>Choose TV show</title>
             <div></div>
@@ -69,26 +68,16 @@ export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
             <span className='text-white '>Choose TV show</span>
         </div>
         <div className='flex flex-row'>
-          <div className='bg-[#2E353D] min-h-8 w-10 p-1 flex justify-center items-center border-r-4 cursor-pointer'>
+          <div className='bg-[#2E353D] h-10 w-10 p-1 flex justify-center items-center border-r-4 cursor-pointer'>
             {orderType === 'asc'?<img onClick={()=>setOrderType('desc')} src={ascendingIcon} alt="" />: <img onClick={()=>setOrderType('asc')} src={descendingIcon} alt="" />}
           </div>
-          <div>
-            <div className='bg-[#2E353D] text-center flex flex-row items-center text-white h-10 min-w-40 text-nowrap' id="popularity">
-              <div onClick={()=>setSortingOptionsVisible(prev=>!prev)}>{orderOptions?.find((option) => option.value === selectedSortBy)?.text}</div>
-              <div className=' relative top-20'>
-                {sortingOptionsVisible && orderOptions.map((item) => (
-                  <option onClick={()=>setSelectedSortBy(item.value)} className='bg-white text-black' value={item.value} key={item.value}>{item.text}</option>
-                ))}
-              </div>
-            </div>
-            
-          </div>
+          <FilterDropwDown orderOptions={orderOptions} selectedSortBy={selectedSortBy} selectedContent={selectedContent} setSelectedSortBy={setSelectedSortBy} />
         </div>
       </div>
       <div className=' mx-10 md:mx-0'>
         <div className=' gap-x-60 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
             {data.map((items: Shows) => (
-              items.results.filter((item)=>item.poster_path !== null && item?.original_language === 'en' && (selectedContent ==='tv'?item?.origin_country.find((item)=>item ==="US"): true )).map((item: Show | Movie, index: number) => (
+              items.results.filter((item)=>item.poster_path !== null && item?.original_language === 'en' && (selectedContent ==='tv'?item?.origin_country?.find((item)=>item ==="US"): true )).map((item: Show | Movie, index: number) => (
                 <ContentListCard key={index} item={item} genresTypes={genresTypes} />
               ))
             ))}

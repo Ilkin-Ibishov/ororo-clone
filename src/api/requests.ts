@@ -16,8 +16,6 @@ export const orderOptionsShow = [
 ]
 
 export const getContent=async(selectedContent:string, page:number, sort_by:string)=>{
-  console.log(page);
-  
   const url = `https://api.themoviedb.org/3/discover/${selectedContent}`
   const options = {
     method: 'GET',
@@ -96,7 +94,6 @@ export const getSpecificShowTrailer=async(id:number)=>{
   try {
     const response = await axios(url, options);
     const hrefs: string[] = response.data.results.map((result: VideoResult) => result.key)
-    console.log(response.data.results);
     
     return hrefs;
   } catch (error) {
@@ -119,5 +116,29 @@ export const getContenteasonEpisodes =async(show_id:number, season_number:number
     return response.data 
   } catch (error) {
     console.error('error:', error);
+  }
+}
+
+export const getSearchResults = async(input: string, page: number)=>{
+  const url = 'https://api.themoviedb.org/3/search/multi';
+const options = {
+  headers: {
+    accept: 'application/json',
+    Authorization: `Bearer ${Auth_Token}`
+  },
+  params: {
+    query: input,
+    include_adult: 'false',
+    language: 'en-US',
+    page: page
+    }
+  };
+
+  try {
+    const response = await axios.get(url, options);
+    return response.data;
+  } catch (error) {
+    console.error('error: ' + error);
+    throw error;
   }
 }

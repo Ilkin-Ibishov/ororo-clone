@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import HeaderButton from './HeaderButton';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import SearchBar from './SearchBar';
 
 const languages = [
   { fullLanguageText: "English", shortLanguageText: "En" },
@@ -26,9 +26,9 @@ export const Header: React.FC<Header> = ({selectedContent, setselectedContent}) 
 
   return (
     <>
-      <div className='flex z-50 sticky top-0 flex-row items-center justify-between px-14 bg-[#2E353D] h-[3.75rem] min-w-[50rem] w-screen -mx-5 text-color-css-header'>
+      <div className='flex z-50 sticky top-0 flex-row items-center justify-between px-20 bg-[#2E353D] h-[3.75rem] min-w-[50rem] w-screen -mx-5 text-color-css-header'>
         <div className='flex flex-row'>
-          <Link to={'/'}><img className='w-28 pr-4' src="https://ororo.tv/assets/logo-7357121603f7afa41b456a871fdbff02dafe08b8cefff7a7e7cb320a57080bdc.svg" alt="" /></Link>
+          <Link to={'/'}><img className='w-28 pr-4 py-2' src="https://ororo.tv/assets/logo-7357121603f7afa41b456a871fdbff02dafe08b8cefff7a7e7cb320a57080bdc.svg" alt="" /></Link>
           <Link to={'/shows'} onClick={() => setselectedContent('tv')} className={`text-base p-3 ${selectedContent === 'tv' && navButtonCss} hover:text-white cursor-pointer`}>TV Shows</Link>
           <Link to={'/movies'} onClick={() => setselectedContent('movie')} className={`text-base p-3 ${selectedContent === 'movie' && navButtonCss} hover:text-white cursor-pointer`}>Movies</Link>
         </div>
@@ -53,10 +53,7 @@ export const Header: React.FC<Header> = ({selectedContent, setselectedContent}) 
               {islanguageBarVisible?<KeyboardArrowUpIcon />:<KeyboardArrowDownIcon />}
             </div>
           </div>
-          <div className='flex flex-col'>
-            <SearchIcon className='absolute top-5 ml-3' />
-            <input width="18.75rem" placeholder={"Search..."} onBlur={() => setInputFocused(false)} onFocus={() => setInputFocused(true)} className='bg-[#444b54] focus:w-96 w-32 border-r-8 py-3 pr-3 pl-10 border-transparent focus:border-transparent h-10' type="text" />
-          </div>
+          <SearchBar setInputFocused={setInputFocused} isInputFocused={isInputFocused} />
         </div>
       </div>
     </>
