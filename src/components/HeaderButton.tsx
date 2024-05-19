@@ -11,7 +11,7 @@ interface HeaderButtonProps {
 const HeaderButton: React.FC<HeaderButtonProps> = ({ bgColor, text, isLogin, isInputFocused }) => {
   
   return (
-    <button hidden={isInputFocused} className={`${bgColor} p-2 border-0 text-white rounded-[4px]`}>
+    <button hidden={isInputFocused} className={`${bgColor} p-2 border-0 text-white text-nowrap rounded-[4px]`}>
       {isLogin && <LoginIcon className='mr-1' />}
       {text}
     </button>

@@ -28,8 +28,8 @@ export const Header: React.FC<Header> = ({selectedContent, setselectedContent}) 
       <div className='flex z-50 sticky top-0 flex-row items-center justify-between px-20 bg-[#2E353D] h-[3.75rem] min-w-[50rem] w-screen -mx-5 text-color-css-header'>
         <div className='flex flex-row'>
           <Link to={'/'}><img className='w-28 pr-4 py-2' src="https://ororo.tv/assets/logo-7357121603f7afa41b456a871fdbff02dafe08b8cefff7a7e7cb320a57080bdc.svg" alt="" /></Link>
-          <Link to={'/shows'} onClick={() => setselectedContent('tv')} className={`text-base p-3 ${selectedContent === 'tv' && navButtonCss} hover:text-white cursor-pointer`}>TV Shows</Link>
-          <Link to={'/movies'} onClick={() => setselectedContent('movie')} className={`text-base p-3 ${selectedContent === 'movie' && navButtonCss} hover:text-white cursor-pointer`}>Movies</Link>
+          <Link to={'/shows'} onClick={() => setselectedContent('tv')} className={`text-base p-3 ${selectedContent === 'tv' && navButtonCss} hover:text-white cursor-pointer text-nowrap`}>TV Shows</Link>
+          <Link to={'/movies'} onClick={() => setselectedContent('movie')} className={`text-base p-3 ${selectedContent === 'movie' && navButtonCss} hover:text-white cursor-pointer text-nowrap`}>Movies</Link>
         </div>
         <div className='flex justify-between items-center gap-5'>
           <div hidden={!islanguageBarVisible} onBlur={() => setLanguageBarVisible(false)} className='absolute top-[3.75rem]'>
