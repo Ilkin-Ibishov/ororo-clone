@@ -2,6 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState, useRef } from 'react';
 import { getSearchResults } from '../api/requests';
 import { SearchResponse, SearchResult, Person } from '../types/types';
+import emptyAvatar from '../assets/artist-empty-avatar.png'
 
 interface SearchBarProps {
   setInputFocused: React.Dispatch<React.SetStateAction<boolean>>;
@@ -76,16 +77,25 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
       />
       <div
         ref={resultDivRef}
-        hidden={!isInputFocused}
+        hidden={!isInputFocused || result[0] === undefined || result[0].length === 1}
         className='w-96 absolute top-12 border-2 h-60 bg-white overflow-y-scroll text-black'
       >
         {result.map((items) => (
           items.map(item => (
             <div key={item.id} className='my-4 mx-2 flex flex-row gap-5'>
-              <img src={'poster_path' in item? `${"https://image.tmdb.org/t/p/w500" + item.poster_path}`: 'profile_path' in item?`${"https://image.tmdb.org/t/p/w500" + 'profile_path'}`: undefined } className=' w-12' alt="Item poster" />
+              <img 
+                className=' w-12' 
+                alt="Item poster"
+                src={
+                    'poster_path' in item
+                    ? `${"https://image.tmdb.org/t/p/w500" + item.poster_path}`
+                    : 'profile_path' in item && item.profile_path !== null
+                    ?`${"https://image.tmdb.org/t/p/w500" + item.profile_path}`
+                    : emptyAvatar } 
+                 />
               <div>
                 <div>{item.media_type === 'movie' && 'title' in item? item?.title : item.name}</div>
-                <div>{item.media_type}</div>
+                <div>{item.media_type === 'movie'?"Movie": item.media_type === 'tv'? "Tv Show": "Actor"}</div>
               </div>
             </div>
           ))
