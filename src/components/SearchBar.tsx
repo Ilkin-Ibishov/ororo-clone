@@ -76,6 +76,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
       />
       <div
         ref={resultDivRef}
+        hidden={!isInputFocused}
         className='w-96 absolute top-12 border-2 h-60 bg-white overflow-y-scroll text-black'
       >
         {result.map((items) => (

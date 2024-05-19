@@ -1,6 +1,5 @@
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import SearchIcon from '@mui/icons-material/Search';
 import HeaderButton from './HeaderButton';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
