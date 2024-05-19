@@ -15,7 +15,7 @@ interface ContentList {
 
 export const ContentList: React.FC<ContentList> = ({selectedContent}) => {
   const orderOptions = selectedContent === 'movie' ? orderOptionsMovie : orderOptionsShow
-  const [orderType, setOrderType] = useState<string>('asc')
+  const [orderType, setOrderType] = useState<string>('desc')
   const [selectedSortBy, setSelectedSortBy] = useState<string>(orderOptions[0].value)
   const [totalResults, setTotalResults] = useState<number>(0)
   const [isFilterHidden, setFilterHidden] = useState<boolean>(true)
