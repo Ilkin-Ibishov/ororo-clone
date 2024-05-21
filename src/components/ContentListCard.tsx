@@ -1,23 +1,23 @@
 import { Link } from "react-router-dom";
-import { Show, GenresResponse, Movie } from "../types/types";
+import { ShowPreview, GenresResponse, MoviePreview } from "../types/types";
 import { useState } from "react";
 
 interface ContentListCardProps {
-    item: Show | Movie;
+    item: ShowPreview | MoviePreview;
     genresTypes: GenresResponse | null;
 }
 
 export const ContentListCard: React.FC<ContentListCardProps> = ({ item, genresTypes }) => {
     const [showPreview, setShowPreview] = useState(0)
-    const isShow = (item: Show | Movie): item is Show => {
-        return (item as Show).first_air_date !== undefined;
+    const isShow = (item: ShowPreview | MoviePreview): item is ShowPreview => {
+        return (item as ShowPreview).first_air_date !== undefined;
     }
-    const isMovie = (item: Show | Movie): item is Movie => {
-        return (item as Movie).release_date !== undefined;
+    const isMovie = (item: ShowPreview | MoviePreview): item is MoviePreview => {
+        return (item as MoviePreview).release_date !== undefined;
     };
-
+    
     return (
-        <Link onClick={() => { localStorage.setItem("directedPageID", item.id.toString()) }} key={item.id} to={`/${"shows"}/${item.id}`}>
+        <Link onClick={() => { localStorage.setItem("directedPageID", item.id.toString())}} key={item.id} to={`/${localStorage.getItem('selectedContent')}/${item.id}`}>
             <div onMouseEnter={() => setShowPreview(item.id)} onMouseLeave={() => setShowPreview(0)} className='w-52 h-80'>
                 <div hidden={showPreview === item.id}>{item.poster_path?<img src={`${"https://image.tmdb.org/t/p/w500" + item.poster_path}`} alt="" />:<p className=" w-full py-[65%] px-10 bg-[#2E353D]">No poster photo from backend</p>}</div>
                 <div hidden={showPreview !== item.id} className={`bg-[#2E353D] p-5 ${showPreview === item.id && "flex flex-col gap-1 relative w-[250px] -top-6 -left-5 rounded-sm h-[350px]"}`}>

@@ -9,11 +9,11 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/shows" />} />
-        <Route path="/shows" element={<Home selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
-        <Route path="/shows/:contentName" element={<Contentpage selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
-        <Route path="/movies" element={<Home selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
-        <Route path="/movies/:contentName" element={<Contentpage selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
+        <Route path="/" element={<Navigate to="/tv" />} />
+        <Route path="/tv" element={<Home selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
+        <Route path="/tv/:contentName" element={<Contentpage selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
+        <Route path="/movie" element={<Home selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
+        <Route path="/movie/:contentName" element={<Contentpage selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
       </Routes>
     </>
   );

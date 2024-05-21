@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { getSearchResults } from '../api/requests';
 import { SearchResponse, SearchResult, Person } from '../types/types';
 import emptyAvatar from '../assets/artist-empty-avatar.png'
+import { Link } from 'react-router-dom';
 
 interface SearchBarProps {
   setInputFocused: React.Dispatch<React.SetStateAction<boolean>>;
@@ -61,28 +62,26 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
     };
   }, [resultDivRef]);
 
-  console.log(result);
-
   return (
-    <div className='flex flex-col relative'>
+    <div className='flex flex-col relative' onFocus={() => setInputFocused(true)}>
       <SearchIcon className='absolute top-3 ml-3' />
       <input
         onChange={(event) => setInputText(event.target.value)}
         width="18.75rem"
         placeholder={"Search..."}
-        onFocus={() => setInputFocused(true)}
-        onBlur={() => setInputFocused(false)}
-        className='bg-[#444b54] focus:w-96 w-32 border-r-8 py-3 pr-3 pl-10 border-transparent focus:border-transparent h-10'
+        className={`bg-[#444b54] ${isInputFocused? 'w-96': 'w-32'} border-r-8 py-3 pr-3 pl-10 border-transparent h-10`}
         type="text"
       />
       <div
         ref={resultDivRef}
         hidden={!isInputFocused || result[0] === undefined || result[0].length === 1}
         className='w-96 absolute top-12 border-2 h-60 bg-white overflow-y-scroll text-black'
+        onClick={()=>setInputFocused(false)}
       >
         {result.map((items) => (
           items.map(item => (
-            <div key={item.id} className='my-4 mx-2 flex flex-row gap-5'>
+            <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()) }} to={`/${item.media_type}/${item.id}`}>
+                <div className='my-4 mx-2 flex flex-row gap-5'>
               <img 
                 className=' w-12' 
                 alt="Item poster"
@@ -98,6 +97,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
                 <div>{item.media_type === 'movie'?"Movie": item.media_type === 'tv'? "Tv Show": "Actor"}</div>
               </div>
             </div>
+            </Link>
           ))
         ))}
       </div>

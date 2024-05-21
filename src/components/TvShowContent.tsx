@@ -11,18 +11,20 @@ import { SelectedTVShow } from '../types/ShowEpisodesTypes';
 
 interface ContentInfoProps {
     data: TVShow;
+    id: string
   }
 
-  export const TvShowSeasons: React.FC<ContentInfoProps>=({data})=>{
-    const [value, setValue] = React.useState(0);
+export const TvShowContent: React.FC<ContentInfoProps>=({data, id})=>{
+    const [value, setValue] = React.useState(0)
     const [episodesData, setEpisodesData] = useState<SelectedTVShow | null>(null)
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.target
         setValue(newValue);
     };
     useEffect(() => {
-        getContenteasonEpisodes(data?.id, value).then(response=> setEpisodesData(response))
-    }, [value])
+        const currentId = Number(localStorage.getItem('directedPageID')) as number
+        getContenteasonEpisodes(currentId, value).then(response=> setEpisodesData(response))
+    }, [value, id])
     
     return (<>
         <Box sx={{ maxWidth: { xs: 320, sm: 800 }, bgcolor: 'background.paper' }}>

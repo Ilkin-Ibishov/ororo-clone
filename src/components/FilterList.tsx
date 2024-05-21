@@ -10,14 +10,14 @@ const itemVariants: Variants = {
   closed: { opacity: 0, y: 20, transition: { duration: 0.2 } }
 };
 
-interface FilterDropwDownProps {
+interface FilterList {
   selectedContent: string;
   setSelectedSortBy: React.Dispatch<React.SetStateAction<string>>;
   selectedSortBy: string;
   orderOptions: { value: string; text: string }[];
 }
 
-export const FilterDropwDown: React.FC<FilterDropwDownProps> = ({
+export const FilterList: React.FC<FilterList> = ({
   orderOptions,
   setSelectedSortBy,
   selectedSortBy

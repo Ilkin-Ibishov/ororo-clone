@@ -1,29 +1,31 @@
 // ContentInfo.tsx
 import React from 'react';
-import { TVShow } from '../types/ShowTypes';
 import { countries } from 'countries-list';
 import { Country } from '../types/types';
+import { TVShow } from '../types/ShowTypes';
+import { Movie } from '../types/MovieTypes';
 
 interface ContentInfoProps {
-  data: TVShow | null;
+  data: TVShow | Movie | null;
 }
 
 export const ContentInfo: React.FC<ContentInfoProps> = ({ data }) => {
+  const contentType = localStorage.getItem('selectedContent') as string
   return (
     data && (
       <div>
         <p>Rating: {parseFloat(data?.vote_average.toFixed(1))}</p>
-        <p>Release year: {data?.first_air_date.substring(0, 4)}</p>
+        <p>Release year: {contentType === 'tv'?(data as TVShow)?.first_air_date.substring(0, 4): (data as Movie)?.release_date}</p>
         <p>Genres: 
-          <React.Fragment>
+          <div className=' grid grid-cols-3 gap-2 w-64'>
             {data.genres.map((genre, index) => (
-              <span key={index} className="mr-1 inline">{genre.name}</span>
+              <span key={index} className="text-nowrap py-1 text-sm px-3 bg-blue-600 text-white text-center rounded-lg">{genre.name}</span>
             ))}
-          </React.Fragment>
+          </div>
         </p>
         <p>Countries: {(countries[data.origin_country[0] as keyof typeof countries] as Country)?.name}</p>
-        <p>Duration: {data.episode_run_time}min</p>
-        <p>Status: {data.in_production? "Returning Series": "Ended"}</p>
+        <p>Duration: {contentType === 'tv'? (data as TVShow).episode_run_time: (data as Movie)?.runtime}min</p>
+        <p>Status: {contentType === 'tv'? (data as TVShow).in_production? "Returning Series": "Ended": (data as Movie)?.status}</p>
       </div>
     )
   );

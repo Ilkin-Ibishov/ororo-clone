@@ -9,14 +9,14 @@ export interface previewDataType {
     genres: (string | number)[];
   }
 
-export interface Shows {
+export interface Contents {
     page: number,
-    results: Show[],
+    results: ShowPreview[] | MoviePreview[],
     total_pages: number,
     total_results: number
 }
 
-export interface Show {
+export interface ShowPreview {
     adult: boolean;
     backdrop_path: string;
     first_air_date: string;
@@ -33,7 +33,7 @@ export interface Show {
     vote_count: number;
   }
 
-export interface Movie {
+export interface MoviePreview {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
