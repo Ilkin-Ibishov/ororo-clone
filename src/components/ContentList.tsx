@@ -109,7 +109,7 @@ export const ContentList: React.FC<ContentList> = ({ selectedContent }) => {
         <div className='gap-x-60 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
           {data.map((items: Contents) => (
             <>
-              
+              <div className=' bg-black'>Page {items.page}</div>
               {items.results.filter((item) => item.poster_path !== null && item?.original_language === 'en' && (selectedContent === 'tv' ? (item as unknown as TVShow)?.origin_country?.find((item) => item === "US" || item === "GB" || item === "NZ" || item === "AU" || item === "CA") : true)).map((item, index) => (
               <ContentListCard key={index} item={item} genresTypes={genresTypes} />
             ))}

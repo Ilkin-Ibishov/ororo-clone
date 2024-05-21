@@ -14,10 +14,9 @@ const languages = [
   { fullLanguageText: "Turkish", shortLanguageText: "Tr" },
 ];
 interface Header {
-  selectedContent: string;
   setselectedContent: React.Dispatch<React.SetStateAction<string>>
 }
-export const Header: React.FC<Header> = ({selectedContent, setselectedContent}) => {
+export const Header: React.FC<Header> = ({ setselectedContent}) => {
   const [currentLanguage, setCurrentLanguage] = useState(languages[0].shortLanguageText);
   const [islanguageBarVisible, setLanguageBarVisible] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false)

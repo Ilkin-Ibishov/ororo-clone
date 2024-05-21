@@ -9,7 +9,7 @@ interface Home {
 export const Home: React.FC<Home> = ({selectedContent, setselectedContent}) => {
   return (
     <>
-      <Header selectedContent={selectedContent} setselectedContent={setselectedContent} />
+      <Header setselectedContent={setselectedContent} />
       <ContentList selectedContent={selectedContent} />
     </>
   );
