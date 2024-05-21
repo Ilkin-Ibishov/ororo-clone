@@ -11,9 +11,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/tv" />} />
         <Route path="/tv" element={<Home selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
-        <Route path="/tv/:contentName" element={<Contentpage selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
+        <Route path="/tv/:contentName" element={<Contentpage setselectedContent={setselectedContent} />} />
         <Route path="/movie" element={<Home selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
-        <Route path="/movie/:contentName" element={<Contentpage selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
+        <Route path="/movie/:contentName" element={<Contentpage setselectedContent={setselectedContent} />} />
       </Routes>
     </>
   );

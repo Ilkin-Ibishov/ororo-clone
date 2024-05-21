@@ -11,7 +11,6 @@ import { Movie } from "../types/MovieTypes";
 import { getSpecificMovie } from "../api/requests";
 
 interface Contentpage {
-  selectedContent: string;
   setselectedContent: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -71,7 +70,7 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
         setClickedTrailerIndex={setClickedTrailerIndex} 
         overlayRef={overlayRef} 
       />
-      <Header selectedContent={selectedContent} setselectedContent={setselectedContent} />
+      <Header setselectedContent={setselectedContent} />
       <div className="px-40 mt-3 flex flex-row">
         <div className="w-[25%]">
           <img className="w-64" src={`${"https://image.tmdb.org/t/p/w500" + (data?.poster_path || '')}`} alt="" />
