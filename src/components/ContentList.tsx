@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { getContent, getGenres } from '../api/requests';
-import { Contents, ShowPreview, GenresResponse, MoviePreview } from '../types/types';
+import { Contents, GenresResponse } from '../types/types';
 import { ContentListCard } from './ContentListCard';
 import ascendingIcon from '../assets/ascending-sorting.png';
 import descendingIcon from '../assets/descending-sorting.png';
