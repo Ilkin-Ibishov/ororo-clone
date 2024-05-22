@@ -19,14 +19,14 @@ const variants = {
   }
 };
 
-const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"];
-
 interface MenuItem {
   text: string;
+  id: string;
 }
 
-export const MenuItem: React.FC<MenuItem> = ({text}) => {
-  const style = { border: `2px solid ${colors[3]}` };
+export const MenuItem: React.FC<MenuItem> = ({text, id}) => {
+  const style = { border: `2px solid #2196f3` };
+  const bgColorCondition = localStorage.getItem('selectedContent') === id && 'bg-white'
   return (
     <div className="mobile-li">
       <motion.li
@@ -34,9 +34,9 @@ export const MenuItem: React.FC<MenuItem> = ({text}) => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         className="flex items-center">
-      <div className="icon-placeholder" style={style} />
-      <div className=" text-xl text-white text-nowrap">{text}</div>
-    </motion.li>
+        <div className={`icon-placeholder ${bgColorCondition}`} style={style} />
+        <div className=" text-xl text-white text-nowrap">{text}</div>
+      </motion.li>
     </div>
   );
 };

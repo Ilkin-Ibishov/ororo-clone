@@ -47,7 +47,7 @@ export default function SearchBarMobile() {
     const handleScroll = () => {
       if (resultDivRef.current) {
         const { scrollTop, scrollHeight, clientHeight } = resultDivRef.current;
-        if (scrollTop + clientHeight >= scrollHeight - 5) {
+        if (scrollTop + clientHeight >= scrollHeight) {
           setPage(prev => prev + 1);
         }
       }
@@ -111,7 +111,7 @@ export default function SearchBarMobile() {
             />
             <div
                 ref={resultDivRef}
-                className='w-full absolute left-0 border-2 h-[27rem] bg-white overflow-y-scroll text-black'
+                className='w-full absolute left-0 border-2 h-[27rem] bg-white overflow-y-scroll text-black rounded-lg'
                 hidden={result.length === 0}
             >
                 {result.map((items) => (
