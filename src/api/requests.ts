@@ -29,7 +29,7 @@ export const getContent=async(selectedContent:string, page:number, sort_by:strin
       include_adult: false,
       include_null_first_air_dates: false,
       language: 'en-US',
-      page: page +1,
+      page: page,
       sort_by: sort_by,
       with_original_language: 'en',
       with_genres: selectedGenreIds
@@ -38,7 +38,7 @@ export const getContent=async(selectedContent:string, page:number, sort_by:strin
       include_adult: false,
       include_video: false,
       language: 'en-US',
-      page: page + 1,
+      page: page,
       sort_by: sort_by,
       with_genres: selectedGenreIds
     }

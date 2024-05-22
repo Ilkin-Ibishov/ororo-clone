@@ -5,14 +5,14 @@ import { useState } from 'react';
 
 function App() {
   const [selectedContent, setselectedContent] = useState<string>("tv")
-
+  selectedContent
   return (
     <>
       <Routes>
         <Route path="/" element={<Navigate to="/tv" />} />
-        <Route path="/tv" element={<Home selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
+        <Route path="/tv" element={<Home setselectedContent={setselectedContent} />} />
         <Route path="/tv/:contentName" element={<Contentpage setselectedContent={setselectedContent} />} />
-        <Route path="/movie" element={<Home selectedContent={selectedContent} setselectedContent={setselectedContent} />} />
+        <Route path="/movie" element={<Home setselectedContent={setselectedContent} />} />
         <Route path="/movie/:contentName" element={<Contentpage setselectedContent={setselectedContent} />} />
       </Routes>
     </>

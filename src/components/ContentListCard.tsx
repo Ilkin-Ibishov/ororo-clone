@@ -18,7 +18,7 @@ export const ContentListCard: React.FC<ContentListCardProps> = ({ item, genresTy
     
     return (
         <Link onClick={() => { localStorage.setItem("directedPageID", item.id.toString())}} key={item.id} to={`/${localStorage.getItem('selectedContent')}/${item.id}`}>
-            <div onMouseEnter={() => setShowPreview(item.id)} onMouseLeave={() => setShowPreview(0)} className='w-52 h-80'>
+            <div onMouseEnter={() => setShowPreview(item.id)} onMouseLeave={() => setShowPreview(0)} className='md:w-52 md:h-80 w-28 h-40'>
                 <div hidden={showPreview === item.id}>{item.poster_path?<img src={`${"https://image.tmdb.org/t/p/w500" + item.poster_path}`} alt="" />:<p className=" w-full py-[65%] px-10 bg-[#2E353D]">No poster photo from backend</p>}</div>
                 <div hidden={showPreview !== item.id} className={`bg-[#2E353D] p-5 ${showPreview === item.id && "flex flex-col gap-1 relative w-[250px] -top-6 -left-5 rounded-sm h-[350px]"}`}>
                     <span className='text-lg font-semibold'>{isShow(item)? item.name: isMovie(item)? item.title: null}</span>

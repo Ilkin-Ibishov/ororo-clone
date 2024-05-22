@@ -37,12 +37,12 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
 
     useEffect(() => {
         if (id && selectedContent === 'tv') {
-            getSpecificShow(id).then((response) => setData(response));
-            getTrailers(id, selectedContent).then((response) => setTrailerLinks(response));
+            getSpecificShow(id).then((response) => setData(response))
+            getTrailers(id, selectedContent).then((response) => setTrailerLinks(response))
         }
         if (id && selectedContent === 'movie'){
             getSpecificMovie(id).then((response)=> setData(response))
-            getTrailers(id, selectedContent).then((response) => setTrailerLinks(response));
+            getTrailers(id, selectedContent).then((response) => setTrailerLinks(response))
         }
     }, [id])
 
@@ -70,9 +70,11 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
         setClickedTrailerIndex={setClickedTrailerIndex} 
         overlayRef={overlayRef} 
       />
+      <div ></div>
       <Header setselectedContent={setselectedContent} />
-      <div className="px-40 mt-3 flex flex-row">
-        <div className="w-[25%]">
+      <div className="md:px-40 px-10 w-full mt-3 flex md:flex-row flex-col">
+        <h1 className="md:hidden text-2xl text-center pb-5 font-bold">{selectedContent === 'tv' && data?(data as TVShow).name : data &&(data as Movie).title}</h1>
+        <div className="w-[25%] flex md:flex-col flex-row">
           <img className="w-64" src={`${"https://image.tmdb.org/t/p/w500" + (data?.poster_path || '')}`} alt="" />
           <div className="flex flex-row w-fit gap-1">
             {trailerLinks?.map((_link, index) => (
@@ -88,10 +90,11 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
           </div>
           <ContentInfo data={data} />
         </div>
-        <div className="w-[80%] pl-16">
+        <div className="md:w-[80%] w-full md:pl-16">
           <div className="pb-5">
-            <h2 className="text-xl font-bold">{selectedContent === 'tv'? (data as TVShow)?.name: (data as Movie)?.title}</h2>
-            <p className="show-overview-css">{data?.overview}</p>
+            <h2 className="text-xl font-bold md:block hidden">{selectedContent === 'tv'? (data as TVShow)?.name: (data as Movie)?.title}</h2>
+            <h2 className="text-xl font-bold block md:hidden">Description</h2>
+            <p className="show-overview-css w-full">{data?.overview}</p>
           </div>
           {data !== null && id !==null && selectedContent==='tv'? <TvShowContent data={data as TVShow} id={id} />:selectedContent==='movie' && <MovieContent data={data as Movie} trailer={trailerLinks[0] as string} />}
         </div>

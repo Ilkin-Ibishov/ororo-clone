@@ -10,11 +10,9 @@ import { FilterList } from './FilterList';
 import { TVShow } from '../types/ShowTypes';
 import FilterContents from './FilterContents';
 
-interface ContentList {
-  selectedContent: string;
-}
 
-export const ContentList: React.FC<ContentList> = ({ selectedContent }) => {
+export const ContentList = () => {
+  const selectedContent = localStorage.getItem('selectedContent') as string
   const orderOptions = selectedContent === 'movie' ? orderOptionsMovie : orderOptionsShow;
   const [orderType, setOrderType] = useState<string>('desc');
   const [selectedSortBy, setSelectedSortBy] = useState<string>(orderOptions[0].value);
@@ -22,7 +20,7 @@ export const ContentList: React.FC<ContentList> = ({ selectedContent }) => {
   const [isFilterHidden, setFilterHidden] = useState<boolean>(true);
   const [data, setData] = useState<Contents[]>([]);
   const [genresTypes, setGenresTypes] = useState<GenresResponse | null>(null);
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
 
   const filterUniquePages = (data: Contents[]) => {
     const uniquePages = new Set();
@@ -56,7 +54,7 @@ export const ContentList: React.FC<ContentList> = ({ selectedContent }) => {
 
   useEffect(() => {
     setData([]);
-    setPage(0);
+    setPage(1);
     handleGetContent(true);
   }, [selectedContent, selectedSortBy, orderType]);
 
@@ -67,7 +65,7 @@ export const ContentList: React.FC<ContentList> = ({ selectedContent }) => {
   }, [page]);
 
   const handleScroll = () => {
-    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight * 0.8) {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
       setPage(prevPage => prevPage + 1);
     }
   };
@@ -79,17 +77,17 @@ export const ContentList: React.FC<ContentList> = ({ selectedContent }) => {
   console.log(data);
   
   return (
-    <div className='md:px-8 lg:px-[5%] bg-[#ECEFF1] pt-5'>
+    <div className='md:px-8 lg:px-[5%] px-0 bg-[#ECEFF1]'>
       <FilterContents handleGetContent={handleGetContent} isFilterHidden={isFilterHidden} selectedContent={selectedContent} genresTypes={genresTypes as GenresResponse} />
-      <div className='flex flex-row pt-12 pb-10 mx-4 items-center justify-between gap-5 md:gap-10 max-w-[screen]'>
+      <div className='flex md:flex-row flex-col pt-12 pb-10 items-center justify-between gap-5 md:gap-10 w-full'>
         <div className="flex flex-col min-w-[120px]">
           <span color="#8896a1">Total</span>
-          <span className="text-xl font-normal text-nowrap flex flex-row">
+          <span className="text-xl font-normal text-nowrap flex-nowrap flex flex-row">
             <div>{totalResults}</div>
             <div className='pl-2'>{selectedContent === 'tv' ? 'Tv Shows' : 'Movies'}</div>
           </span>
         </div>
-        <div onClick={() => setFilterHidden(!isFilterHidden)} className="w-full md:w-1/3 h-10 border-r-4 min-w-[250px] bg-[#2196f3] flex justify-center items-center">
+        <div onClick={() => setFilterHidden(!isFilterHidden)} className="md:w-1/3 w-80 h-10 border-r-4 min-w-[250px] bg-[#2196f3] flex justify-center items-center">
           <FilterAltIcon htmlColor='white' />
           <span className='text-white flex flex-row'>
             <div>Choose</div>
@@ -106,17 +104,19 @@ export const ContentList: React.FC<ContentList> = ({ selectedContent }) => {
         </div>
       </div>
       <div className='mx-10 md:mx-0'>
-        <div className='gap-x-60 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
-          {data.map((items: Contents) => (
+        <div className='gap-x-8 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
+          {data.map((items: Contents, index) => (
             <>
-              
+              <div key={index} className=' bg-black'>Page {items.page}</div>
               {items.results.filter((item) => item.poster_path !== null && item?.original_language === 'en' && (selectedContent === 'tv' ? (item as unknown as TVShow)?.origin_country?.find((item) => item === "US" || item === "GB" || item === "NZ" || item === "AU" || item === "CA") : true)).map((item, index) => (
               <ContentListCard key={index} item={item} genresTypes={genresTypes} />
             ))}
             </>
             
           ))}
+          
         </div>
+        <div className='bg-black h-40 text-white w-full text-3xl'>Loading</div>
       </div>
     </div>
   );
