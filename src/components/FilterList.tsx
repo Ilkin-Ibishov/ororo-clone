@@ -31,7 +31,9 @@ export const FilterList: React.FC<FilterList> = ({
         onClick={() => setIsOpen(!isOpen)}
         className="bg-[#2E353D] cursor-pointer text-center flex flex-row justify-between px-3 items-center text-white h-10 w-40 text-nowrap"
       >
-        {orderOptions?.find((option) => option.value === selectedSortBy)?.text ?? orderOptions[0].text}
+        <span onClick={() => setIsOpen(!isOpen)} >
+          {orderOptions?.find((option) => option.value === selectedSortBy)?.text ?? orderOptions[0].text}
+        </span>
         <motion.div
           variants={{
             open: { rotate: 180 },
