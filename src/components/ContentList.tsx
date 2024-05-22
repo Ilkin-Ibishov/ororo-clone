@@ -79,7 +79,7 @@ export const ContentList = () => {
   return (
     <div className='md:px-8 lg:px-[5%] px-0 bg-[#ECEFF1]'>
       <FilterContents handleGetContent={handleGetContent} isFilterHidden={isFilterHidden} selectedContent={selectedContent} genresTypes={genresTypes as GenresResponse} />
-      <div className='flex md:flex-row flex-col pt-12 pb-10 items-center justify-between gap-5 md:gap-10 w-full'>
+      <div className='flex md:flex-row flex-col md:pt-12 pt-3 pb-10 items-center justify-between gap-5 md:gap-10 w-full'>
         <div className="flex md:flex-col flex-row md:gap-0 gap-3 min-w-[120px]">
           <span color="#8896a1" className='text-xl'>Total</span>
           <span className="text-xl font-normal text-nowrap flex-nowrap flex flex-row">
@@ -103,8 +103,8 @@ export const ContentList = () => {
           <FilterList orderOptions={orderOptions} selectedSortBy={selectedSortBy} selectedContent={selectedContent} setSelectedSortBy={setSelectedSortBy} />
         </div>
       </div>
-      <div className='mx-8 md:mx-0'>
-        <div className='gap-x-2 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
+      <div className='mx-4 md:mx-0'>
+        <div className='gap-x-3 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
           {data.map((items: Contents) => (
             <>
               {/* <div key={index} className=' bg-black'>Page {items.page}</div> */}

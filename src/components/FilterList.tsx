@@ -67,7 +67,7 @@ export const FilterList: React.FC<FilterList> = ({
           }
         }}
         style={{ pointerEvents: isOpen ? "auto" : "none" }}
-        className="relative top-2 z-40 w-40 rounded-md"
+        className="relative top-2 z-40 w-40 rounded-md bg-white"
       >
         {orderOptions.map((item) => (
           <motion.li
