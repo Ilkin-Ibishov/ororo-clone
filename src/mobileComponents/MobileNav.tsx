@@ -42,7 +42,7 @@ export const MobileNav = () => {
         ref={containerRef}
     >
       <motion.div className={`background-mobile ${isOpen? 'w-[300px] h-screen' : 'w-10 h-10'}`} variants={sidebar} />
-      {isOpen && <Navigation isOpen={isOpen} />}
+      {isOpen && <Navigation isOpen={isOpen} toggleOpen={() =>toggleOpen()}  />}
       <MenuToggle toggle={() => toggleOpen()} />
     </motion.nav>
   );

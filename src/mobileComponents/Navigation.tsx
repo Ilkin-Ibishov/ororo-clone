@@ -13,15 +13,16 @@ const variants = {
 };
 
 interface Navigation {
-  isOpen: boolean
+  isOpen: boolean;
+  toggleOpen: () => void;
 }
-export const Navigation: React.FC<Navigation> = ({isOpen}) => (
+export const Navigation: React.FC<Navigation> = ({isOpen, toggleOpen}) => (
   <motion.ul className={isOpen? "mobile-ul": 'no-style'} variants={variants}>
-    <MenuItem text={'TV Shows'} id={'tv'} />
-    <MenuItem text={'Movies'} id={'movie'} />
-    <MenuItem text={'Login'} id={'login'} />
-    <MenuItem text={'Sign up'} id={'signup'} />  
-    <MenuItem text={'Language'} id={'none'} />  
+    <MenuItem text={'TV Shows'} id={'tv'} toggleOpen={toggleOpen} />
+    <MenuItem text={'Movies'} id={'movie'} toggleOpen={()=>toggleOpen()}  />
+    <MenuItem text={'Login'} id={'login'} toggleOpen={toggleOpen} />
+    <MenuItem text={'Sign up'} id={'signup'} toggleOpen={toggleOpen} />  
+    <MenuItem text={'Language'} id={'none'} toggleOpen={toggleOpen} />  
   </motion.ul>
 );
 

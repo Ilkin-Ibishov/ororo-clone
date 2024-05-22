@@ -47,8 +47,8 @@ export default function SearchBarMobile() {
     const handleScroll = () => {
       if (resultDivRef.current) {
         const { scrollTop, scrollHeight, clientHeight } = resultDivRef.current;
-        if (scrollTop + clientHeight >= scrollHeight) {
-          setPage(prev => prev + 1);
+        if (scrollTop + clientHeight >= scrollHeight -10) {
+          setPage(prev => prev + 1)
         }
       }
     };
@@ -83,6 +83,10 @@ export default function SearchBarMobile() {
     setOpen(false)
     setPage(1)
     setResult([])
+    if (resultDivRef.current) {
+      resultDivRef.current.scrollTop = 0;
+    }
+
     if (inputTextRef.current) {
         inputTextRef.current.value = '';
       }
@@ -116,7 +120,7 @@ export default function SearchBarMobile() {
             >
                 {result.map((items) => (
                 items.map(item => (
-                    <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()) }} to={`/${item.media_type}/${item.id}`}>
+                    <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()); handleClose() }} to={`/${item.media_type}/${item.id}`}>
                         <div className='my-4 mx-2 flex flex-row gap-5'>
                     <img 
                         className=' w-12' 
