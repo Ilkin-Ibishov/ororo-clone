@@ -13,7 +13,6 @@ import { getSearchResults } from '../api/requests';
 import { SearchResponse, SearchResult, Person } from '../types/types';
 import emptyAvatar from '../assets/artist-empty-avatar.png'
 
-
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -27,6 +26,7 @@ export default function SearchBarMobile() {
   const [open, setOpen] = useState(false);
   const [result, setResult] = useState<(SearchResult | Person)[][]>([]);
   const [inputText, setInputText] = useState<string>("");
+  const inputTextRef = useRef<HTMLInputElement | null>(null);
   const [page, setPage] = useState<number>(1);
   const resultDivRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -80,7 +80,12 @@ export default function SearchBarMobile() {
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
+    setPage(1)
+    setResult([])
+    if (inputTextRef.current) {
+        inputTextRef.current.value = '';
+      }
   };
 
   return (
@@ -95,46 +100,46 @@ export default function SearchBarMobile() {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle sx={{fontSize: '20px'}}>{"Search Movies, TV Shows, Actors"}</DialogTitle>
-        <DialogContent sx={{ maxHeight: '90rem', minHeight: '20rem', bgcolor: 'blue' }}>
-        <input
-            onChange={(event) => setInputText(event.target.value)}
-            placeholder={"Search..."}
-            className={` -ml-4 mt-3 border-solid text-black w-full rounded-3xl py-3 pl-10 h-10`}
-            type="text"
-        />
-      <div
-        ref={resultDivRef}
-        className='w-full absolute left-0 border-2 h-72 bg-white overflow-y-scroll text-black'
-        hidden={result.length === 0}
-      >
-        {result.map((items) => (
-          items.map(item => (
-            <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()) }} to={`/${item.media_type}/${item.id}`}>
-                <div className='my-4 mx-2 flex flex-row gap-5'>
-              <img 
-                className=' w-12' 
-                alt="Item poster"
-                src={
-                    'poster_path' in item
-                    ? `${"https://image.tmdb.org/t/p/w500" + item.poster_path}`
-                    : 'profile_path' in item && item.profile_path !== null
-                    ?`${"https://image.tmdb.org/t/p/w500" + item.profile_path}`
-                    : emptyAvatar } 
-                 />
-              <div>
-                <div>{item.media_type === 'movie' && 'title' in item? item?.title : item.name}</div>
-                <div>{item.media_type === 'movie'?"Movie": item.media_type === 'tv'? "Tv Show": "Actor"}</div>
-              </div>
+        <DialogTitle sx={{fontSize: '20px', bgcolor: '#2E353D', color: 'white'}}>{"Search Movies, TV Shows, Actors"}</DialogTitle>
+        <DialogContent sx={{ height: '30rem', bgcolor: '#2E353D' }}>
+            <input
+                ref={inputTextRef}
+                onChange={(event) => setInputText(event.target.value)}
+                placeholder={"Search..."}
+                className={` mt-3 border-solid text-black w-full rounded-3xl py-3 pl-6 h-10`}
+                type="text"
+            />
+            <div
+                ref={resultDivRef}
+                className='w-full absolute left-0 border-2 h-[27rem] bg-white overflow-y-scroll text-black'
+                hidden={result.length === 0}
+            >
+                {result.map((items) => (
+                items.map(item => (
+                    <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()) }} to={`/${item.media_type}/${item.id}`}>
+                        <div className='my-4 mx-2 flex flex-row gap-5'>
+                    <img 
+                        className=' w-12' 
+                        alt="Item poster"
+                        src={
+                            'poster_path' in item
+                            ? `${"https://image.tmdb.org/t/p/w500" + item.poster_path}`
+                            : 'profile_path' in item && item.profile_path !== null
+                            ?`${"https://image.tmdb.org/t/p/w500" + item.profile_path}`
+                            : emptyAvatar } 
+                        />
+                    <div>
+                        <div>{item.media_type === 'movie' && 'title' in item? item?.title : item.name}</div>
+                        <div>{item.media_type === 'movie'?"Movie": item.media_type === 'tv'? "Tv Show": "Actor"}</div>
+                    </div>
+                    </div>
+                    </Link>
+                ))
+                ))}
             </div>
-            </Link>
-          ))
-        ))}
-      </div>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose}>Agree</Button>
+        <DialogActions className=' text-white bg-[#2E353D] w-full'>
+          <button className='mx-auto' onClick={handleClose}>Close</button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
