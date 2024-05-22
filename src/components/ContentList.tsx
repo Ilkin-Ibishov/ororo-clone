@@ -107,7 +107,7 @@ export const ContentList = () => {
         <div className='gap-x-8 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
           {data.map((items: Contents, index) => (
             <>
-              <div key={index} className=' bg-black'>Page {items.page}</div>
+              {/* <div key={index} className=' bg-black'>Page {items.page}</div> */}
               {items.results.filter((item) => item.poster_path !== null && item?.original_language === 'en' && (selectedContent === 'tv' ? (item as unknown as TVShow)?.origin_country?.find((item) => item === "US" || item === "GB" || item === "NZ" || item === "AU" || item === "CA") : true)).map((item, index) => (
               <ContentListCard key={index} item={item} genresTypes={genresTypes} />
             ))}
@@ -116,7 +116,7 @@ export const ContentList = () => {
           ))}
           
         </div>
-        <div className='bg-black h-40 text-white w-full text-3xl'>Loading</div>
+        {/* <div className='bg-black h-40 text-white w-full text-3xl'>Loading</div> */}
       </div>
     </div>
   );
