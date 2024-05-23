@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, Variants } from "framer-motion";
 
 const itemVariants: Variants = {
@@ -23,9 +23,23 @@ export const FilterList: React.FC<FilterList> = ({
   selectedSortBy
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <motion.nav initial={false} animate={isOpen ? "open" : "closed"} className="h-10">
+    <motion.nav ref={containerRef} initial={false} animate={isOpen ? "open" : "closed"} className="h-10">
       <motion.button
         whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen(!isOpen)}

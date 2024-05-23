@@ -14,7 +14,7 @@ export const ContentInfo: React.FC<ContentInfoProps> = ({ data }) => {
   return (
     data && (
       <div>
-        <p>Rating: {parseFloat(data?.vote_average.toFixed(1))}</p>
+        <p>Vote avarage: {parseFloat(data?.vote_average.toFixed(1))}</p>
         <p>Release year: {contentType === 'tv' ? (data as TVShow)?.first_air_date.substring(0, 4) : (data as Movie)?.release_date}</p>
         <div>
           <span>Genres:</span>

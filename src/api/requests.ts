@@ -17,7 +17,7 @@ export const orderOptionsShow = [
 ]
 
 export const getContent=async(selectedContent:string, page:number, sort_by:string, selectedGenreIds:string)=>{
-  const url = `https://api.themoviedb.org/3/discover/${selectedContent}`
+  const url = `https://api.themoviedb.org/3/discover/${selectedContent}?vote_average.gte=4&vote_count.gte=20`
   const options = {
     method: 'GET',
     headers: {
@@ -32,7 +32,8 @@ export const getContent=async(selectedContent:string, page:number, sort_by:strin
       page: page,
       sort_by: sort_by,
       with_original_language: 'en',
-      with_genres: selectedGenreIds
+      with_genres: selectedGenreIds,
+      with_origin_country: 'US|GB|NZ|AU|CA'
     }
     :{
       include_adult: false,
@@ -40,7 +41,9 @@ export const getContent=async(selectedContent:string, page:number, sort_by:strin
       language: 'en-US',
       page: page,
       sort_by: sort_by,
-      with_genres: selectedGenreIds
+      with_genres: selectedGenreIds,
+      with_original_language: 'en',
+      with_origin_country: 'US|GB|NZ|AU|CA'
     }
     
   }

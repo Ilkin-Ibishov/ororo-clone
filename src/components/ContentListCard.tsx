@@ -28,9 +28,9 @@ export const ContentListCard: React.FC<ContentListCardProps> = ({ item, genresTy
                             return genre ? <p className='pr-1' key={genre_id}>{genre.name}</p> : ''
                         }).filter(Boolean)}
                     </div>
-                    <div className='flex flex-row font-size-css gap-1'>
+                    <div className='flex flex-row font-size-css gap-4'>
                         <div>{isShow(item) ? item.first_air_date?.substring(0, 4) : isMovie(item) ? item.release_date?.substring(0, 4) : null}</div>
-                        <div>Raiting: {parseFloat(item.vote_average.toFixed(1))}</div>
+                        <div>Vote avarage: {parseFloat(item.vote_average.toFixed(1))}</div>
                     </div>
                     <p className='description-css'>{item.overview}</p>
                 </div>

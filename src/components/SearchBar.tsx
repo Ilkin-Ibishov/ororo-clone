@@ -2,7 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState, useRef } from 'react';
 import { getSearchResults } from '../api/requests';
 import { SearchResponse, SearchResult, Person } from '../types/types';
-import emptyAvatar from '../assets/artist-empty-avatar.png'
+import emptyAvatar from '../assets/artist-empty-avatar.png';
 import { Link } from 'react-router-dom';
 
 interface SearchBarProps {
@@ -15,6 +15,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
   const [inputText, setInputText] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const resultDivRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -62,41 +64,64 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
     };
   }, [resultDivRef]);
 
+  useEffect(() => {
+    const handleClickOutside = async (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setInputFocused(false);
+        await setPage(1)
+        await setResult([])
+        if(inputRef.current){
+          inputRef.current.value = ''
+        }
+        if(resultDivRef.current) {
+          resultDivRef.current.scrollTop = 0;
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setInputFocused]);
+
   return (
-    <div className='flex flex-col relative' onFocus={() => setInputFocused(true)}>
+    <div ref={containerRef} className='flex flex-col relative' onFocus={() => setInputFocused(true)}>
       <SearchIcon className='absolute top-3 ml-3' />
       <input
+        ref={inputRef}
         onChange={(event) => setInputText(event.target.value)}
         width="18.75rem"
         placeholder={"Search..."}
-        className={`bg-[#444b54] ${isInputFocused? 'w-96': 'w-32'} border-r-8 py-3 pr-3 pl-10 border-transparent h-10`}
+        className={`bg-[#444b54] ${isInputFocused ? 'w-96' : 'w-32'} border-r-8 py-3 pr-3 pl-10 border-transparent h-10`}
         type="text"
       />
       <div
         ref={resultDivRef}
-        hidden={!isInputFocused || result[0] === undefined || result[0].length === 1}
+        hidden={!isInputFocused || result[0] === undefined || result[0].length === 0}
         className='w-96 absolute top-12 border-2 h-60 bg-white overflow-y-scroll text-black'
-        onClick={()=>setInputFocused(false)}
       >
         {result.map((items) => (
           items.map(item => (
             <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()) }} to={`/${item.media_type}/${item.id}`}>
-                <div className='my-4 mx-2 flex flex-row gap-5'>
-              <img 
-                className=' w-12' 
-                alt="Item poster"
-                src={
+              <div className='my-4 mx-2 flex flex-row gap-5'>
+                <img
+                  className='w-12'
+                  alt="Item poster"
+                  src={
                     'poster_path' in item
-                    ? `${"https://image.tmdb.org/t/p/w500" + item.poster_path}`
-                    : 'profile_path' in item && item.profile_path !== null
-                    ?`${"https://image.tmdb.org/t/p/w500" + item.profile_path}`
-                    : emptyAvatar } 
-                 />
-              <div>
-                <div>{item.media_type === 'movie' && 'title' in item? item?.title : item.name}</div>
-                <div>{item.media_type === 'movie'?"Movie": item.media_type === 'tv'? "Tv Show": "Actor"}</div>
+                      ? `${"https://image.tmdb.org/t/p/w500" + item.poster_path}`
+                      : 'profile_path' in item && item.profile_path !== null
+                        ? `${"https://image.tmdb.org/t/p/w500" + item.profile_path}`
+                        : emptyAvatar
+                  }
+                />
+                <div>
+                  <div>{item.media_type === 'movie' && 'title' in item ? item?.title : item.name}</div>
+                  <div>{item.media_type === 'movie' ? "Movie" : item.media_type === 'tv' ? "Tv Show" : "Actor"}</div>
+                </div>
               </div>
-            </div>
             </Link>
           ))
         ))}

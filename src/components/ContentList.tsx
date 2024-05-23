@@ -5,9 +5,9 @@ import { ContentListCard } from './ContentListCard';
 import ascendingIcon from '../assets/ascending-sorting.png';
 import descendingIcon from '../assets/descending-sorting.png';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { Skeleton } from '@mui/material';
 import { orderOptionsMovie, orderOptionsShow } from '../api/requests';
 import { FilterList } from './FilterList';
-import { TVShow } from '../types/ShowTypes';
 import FilterContents from './FilterContents';
 
 
@@ -33,17 +33,18 @@ export const ContentList = () => {
     });
   };
 
-  const handleGetContent = (isFirstPage: boolean) => {
+  const handleGetContent = async (isFirstPage: boolean) => {
     const requestedPage = isFirstPage ? 1 : page;
     const sort_by = selectedSortBy + '.' + orderType;
     const selectedGenres = JSON.parse(localStorage.getItem('selectedGenres') as string);
     const selectedGenreIds = genresTypes?.genres.filter(genre => selectedGenres?.includes(genre.name)).map(genre => genre.id).join(',');
 
-    getContent(selectedContent as string, requestedPage as number, sort_by, selectedGenreIds as string).then((response: Contents) => {
+    await getContent(selectedContent as string, requestedPage as number, sort_by, selectedGenreIds as string).then((response: Contents) => {
       const newData = isFirstPage ? [response] : [...data, response];
       setData(filterUniquePages(newData));
       setTotalResults(response ? response?.total_results : 0);
     });
+    
   };
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export const ContentList = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  console.log(data);
+  console.log('data', data);
   
   return (
     <div className='md:px-8 lg:px-[5%] px-0 bg-[#ECEFF1]'>
@@ -107,16 +108,21 @@ export const ContentList = () => {
         <div className='gap-x-3 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
           {data.map((items: Contents) => (
             <>
-              {/* <div key={index} className=' bg-black'>Page {items.page}</div> */}
-              {items.results.filter((item) => item.poster_path !== null && item?.original_language === 'en' && (selectedContent === 'tv' ? (item as unknown as TVShow)?.origin_country?.find((item) => item === "US" || item === "GB" || item === "NZ" || item === "AU" || item === "CA") : true)).map((item, index) => (
-              <ContentListCard key={index} item={item} genresTypes={genresTypes} />
-            ))}
+              {items.results.filter((item) => item.poster_path !== null).map((item, index) => (
+              <ContentListCard key={index} item={item} genresTypes={genresTypes} />))}
             </>
-            
           ))}
-          
+          {/* Default loading skeleton */}
+          {[0,1,2,3,4].map((index)=>(
+            <div>
+              <Skeleton
+                key={index}
+                className=' w-28 h-40 md:w-52 md:h-80 md:py-40 py-20'
+                variant="rectangular"
+              />
+            </div>
+          ))}
         </div>
-        {/* <div className='bg-black h-40 text-white w-full text-3xl'>Loading</div> */}
       </div>
     </div>
   );
