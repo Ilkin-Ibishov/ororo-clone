@@ -34,6 +34,7 @@ export const TvShowContent: React.FC<ContentInfoProps>=({data, id})=>{
                 variant="scrollable"
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
+                allowScrollButtonsMobile 
             >
                 {data && data.seasons.map((season)=>(
                     <Tab key={season.id} label={season.name} />

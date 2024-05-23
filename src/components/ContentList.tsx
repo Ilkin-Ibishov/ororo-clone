@@ -67,7 +67,7 @@ export const ContentList = () => {
 
   const handleScroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-      setPage(prevPage => prevPage + 1);
+      setPage(prevPage => prevPage + 1)
     }
   };
 
