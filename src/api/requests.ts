@@ -17,7 +17,9 @@ export const orderOptionsShow = [
 ]
 
 export const getContent=async(selectedContent:string, page:number, sort_by:string, selectedGenreIds:string)=>{
-  const url = `https://api.themoviedb.org/3/discover/${selectedContent}?vote_average.gte=4&vote_count.gte=20`
+  const selectedFromDate = JSON.parse(localStorage.getItem('fromDate') as string)
+  const selectedToDate = JSON.parse(localStorage.getItem('toDate') as string)
+  const url = `https://api.themoviedb.org/3/discover/${selectedContent}?vote_average.gte=4&vote_count.gte=20&primary_release_date.gte=${selectedFromDate}&primary_release_date.lte=${selectedToDate}&first_air_date.gte=${selectedFromDate}&first_air_date.lte=${selectedToDate}`
   const options = {
     method: 'GET',
     headers: {
@@ -43,7 +45,7 @@ export const getContent=async(selectedContent:string, page:number, sort_by:strin
       sort_by: sort_by,
       with_genres: selectedGenreIds,
       with_original_language: 'en',
-      with_origin_country: 'US|GB|NZ|AU|CA'
+      with_origin_country: 'US|GB|NZ|AU|CA',
     }
     
   }
@@ -127,11 +129,11 @@ export const getContenteasonEpisodes =async(show_id:number, season_number:number
 
 export const getSearchResults = async(input: string, page: number)=>{
   const url = 'https://api.themoviedb.org/3/search/multi';
-const options = {
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${Auth_Token}`
-  },
+  const options = {
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${Auth_Token}`
+    },
   params: {
     query: input,
     include_adult: 'false',
@@ -167,4 +169,24 @@ export const getSpecificMovie = async(id:string)=>{
     console.error('error: ' + error);
     throw error;
   }
+}
+
+export const getPerson = async (id: string) => {
+  const options = {
+    method: 'GET',
+    url: `https://api.themoviedb.org/3/person/${id}`,
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${Auth_Token}`
+    }
+  };
+  
+  axios
+    .request(options)
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
 }

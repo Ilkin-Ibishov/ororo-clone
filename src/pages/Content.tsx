@@ -61,14 +61,13 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
         };
     }, []);
   return (
-    <div className="w-full h-full -mx-5">
+    <div className="w-full h-full md:-mx-5 mx-0">
       <TrailerFrame 
         trailerLinks={trailerLinks}
         clickedTrailerIndex={clickedTrailerIndex} 
         setClickedTrailerIndex={setClickedTrailerIndex} 
         overlayRef={overlayRef}
       />
-      <div ></div>
       <Header setselectedContent={setselectedContent} />
         <div className="md:px-40 px-10 w-full md:mt-3 mt-1 flex md:flex-row flex-col">
           <h1 className="md:hidden text-2xl text-center pb-5 font-bold">{selectedContent === 'tv' && data?(data as TVShow).name : data &&(data as Movie).title}</h1>

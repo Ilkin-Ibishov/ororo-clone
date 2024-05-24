@@ -28,8 +28,7 @@ const sidebar = {
 export const MobileNav = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
   const containerRef = useRef(null);
-  const { height } = useDimensions(containerRef);
-  console.log(isOpen);
+  const { height } = useDimensions(containerRef)
   
   return (
     <motion.nav

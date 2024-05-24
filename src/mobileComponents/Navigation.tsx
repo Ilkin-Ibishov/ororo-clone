@@ -21,8 +21,8 @@ export const Navigation: React.FC<Navigation> = ({isOpen, toggleOpen}) => (
     <MenuItem text={'TV Shows'} id={'tv'} toggleOpen={toggleOpen} />
     <MenuItem text={'Movies'} id={'movie'} toggleOpen={()=>toggleOpen()}  />
     <MenuItem text={'Login'} id={'login'} toggleOpen={toggleOpen} />
-    <MenuItem text={'Sign up'} id={'signup'} toggleOpen={toggleOpen} />  
-    <MenuItem text={'Language'} id={'none'} toggleOpen={toggleOpen} />  
+    <MenuItem text={'Sign up'} id={'sign-up'} toggleOpen={toggleOpen} />
+    <MenuItem text={'Language'} id={'*'} toggleOpen={toggleOpen} />
   </motion.ul>
 );
 

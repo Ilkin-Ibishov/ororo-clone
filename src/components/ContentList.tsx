@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import React from 'react';
 import { getContent, getGenres } from '../api/requests';
 import { Contents, GenresResponse } from '../types/types';
 import { ContentListCard } from './ContentListCard';
@@ -39,7 +40,7 @@ export const ContentList = () => {
     const selectedGenres = JSON.parse(localStorage.getItem('selectedGenres') as string);
     const selectedGenreIds = genresTypes?.genres.filter(genre => selectedGenres?.includes(genre.name)).map(genre => genre.id).join(',');
 
-    await getContent(selectedContent as string, requestedPage as number, sort_by, selectedGenreIds as string).then((response: Contents) => {
+    await getContent(selectedContent as string, requestedPage, sort_by, selectedGenreIds as string).then((response: Contents) => {
       const newData = isFirstPage ? [response] : [...data, response];
       setData(filterUniquePages(newData));
       setTotalResults(response ? response?.total_results : 0);
@@ -88,7 +89,7 @@ export const ContentList = () => {
             <div className='pl-2'>{selectedContent === 'tv' ? 'Tv Shows' : 'Movies'}</div>
           </span>
         </div>
-        <div onClick={() => setFilterHidden(!isFilterHidden)} className="md:w-1/3 w-80 h-10 border-r-4 min-w-[250px] bg-[#2196f3] flex justify-center items-center">
+        <div onClick={() => setFilterHidden(!isFilterHidden)} className="md:w-1/3 w-80 h-10 border-r-4 min-w-[250px] bg-[#2196f3] flex justify-center items-center cursor-pointer">
           <FilterAltIcon htmlColor='white' />
           <span className='text-white flex flex-row'>
             <div>Choose</div>
@@ -105,24 +106,25 @@ export const ContentList = () => {
         </div>
       </div>
       <div className='mx-4 md:mx-0'>
-        <div className='gap-x-3 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
-          {data.map((items: Contents) => (
-            <>
-              {items.results.filter((item) => item.poster_path !== null).map((item, index) => (
-              <ContentListCard key={index} item={item} genresTypes={genresTypes} />))}
-            </>
-          ))}
-          {/* Default loading skeleton */}
-          {[0,1,2,3,4].map((index)=>(
-            <div>
-              <Skeleton
-                key={index}
-                className=' w-28 h-40 md:w-52 md:h-80 md:py-40 py-20'
-                variant="rectangular"
-              />
-            </div>
-          ))}
-        </div>
+      <div className='gap-x-3 gap-y-10 md:gap-6 grid grid-cols-3 md:grid-cols-5 cssClass-text w-full'>
+        {data.map((items: Contents, itemsIndex) => (
+          <React.Fragment key={itemsIndex}>
+            {items.results.filter((item) => item.poster_path !== null).map((item) => (
+              <ContentListCard key={item.id} item={item} genresTypes={genresTypes} />
+            ))}
+          </React.Fragment>
+        ))}
+        {/* Default loading skeleton */}
+        {totalResults > 20 && [0, 1, 2, 3, 4].map((index) => (
+          <div key={index}>
+            <Skeleton
+              className='w-28 h-40 md:w-52 md:h-80 md:py-40 py-20'
+              variant="rectangular"
+            />
+          </div>
+        ))}
+      </div>
+
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ export const TvShowContent: React.FC<ContentInfoProps>=({data, id})=>{
     }, [value, id])
     
     return (<>
-        <Box sx={{ maxWidth: { xs: 320, sm: 800 }, bgcolor: 'background.paper' }}>
+        <Box sx={{ maxWidth: { xs: 600, sm: 800 }, bgcolor: 'background.paper' }}>
             <Tabs
                 value={value}
                 onChange={handleChange}
