@@ -60,6 +60,7 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
         document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+    
   return (
     <div className="w-full h-full md:-mx-5 mx-0">
       <TrailerFrame 
@@ -69,9 +70,9 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
         overlayRef={overlayRef}
       />
       <Header setselectedContent={setselectedContent} />
-        <div className="md:px-40 px-10 w-full md:mt-3 mt-1 flex md:flex-row flex-col">
+        <div className="md:px-32 px-10 w-full md:mt-3 mt-1 flex md:flex-row flex-col">
           <h1 className="md:hidden text-2xl text-center pb-5 font-bold">{selectedContent === 'tv' && data?(data as TVShow).name : data &&(data as Movie).title}</h1>
-          <div className="md:w-[25%] w-full flex flex-col">
+          <div className="md:w-[30%] w-full flex flex-col">
             <img className="w-64 md:mx-0 mx-auto" src={`${"https://image.tmdb.org/t/p/w500" + (data?.poster_path || '')}`} alt="" />
             <div className="flex flex-row w-fit gap-1">
               {trailerLinks?.map((_link, index) => (
@@ -87,13 +88,17 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
             </div>
             <ContentInfo data={data} />
           </div>
-          <div className="md:w-[80%] w-full md:pl-16">
+          <div className="md:w-[70%] w-full md:pl-16">
             <div className="pb-5">
-              <h2 className="text-xl font-bold md:block hidden">{selectedContent === 'tv'? (data as TVShow)?.name: (data as Movie)?.title}</h2>
+              <h2 className="text-xl font-bold md:block hidden">{selectedContent === 'tv'
+                ? (data as TVShow)?.name
+                : (data as Movie)?.title}</h2>
               <h2 className="text-xl font-bold block md:hidden">Description</h2>
               <p className="show-overview-css w-full">{data?.overview}</p>
             </div>
-            {data !== null && id !==null && selectedContent==='tv'? <TvShowContent data={data as TVShow} id={id} />:selectedContent==='movie' && <MovieContent data={data as Movie} trailer={trailerLinks[0] as string} />}
+            {data !== null && id !==null && selectedContent==='tv'
+              ? <TvShowContent data={data as TVShow} id={id} />
+              :selectedContent==='movie' && <MovieContent data={data as Movie} trailer={trailerLinks[0] as string} />}
           </div>
         </div>
     </div>

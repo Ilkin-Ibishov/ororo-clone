@@ -23,8 +23,9 @@ export const TvShowContent: React.FC<ContentInfoProps>=({data, id})=>{
     };
     useEffect(() => {
         const currentId = Number(localStorage.getItem('directedPageID')) as number
-        getContenteasonEpisodes(currentId, value).then(response=> setEpisodesData(response))
+        getContenteasonEpisodes(currentId, data.seasons[value].season_number).then(response=> setEpisodesData(response))
     }, [value, id])
+    
     
     return (<>
         <Box sx={{ maxWidth: { xs: 600, sm: 800 }, bgcolor: 'background.paper' }}>

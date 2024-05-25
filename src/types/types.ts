@@ -99,6 +99,9 @@ export interface Person {
   profile_path: string;
   known_for: KnownFor[];
 }
+
+
+
 export interface SearchResult {
   backdrop_path: string;
   id: number;

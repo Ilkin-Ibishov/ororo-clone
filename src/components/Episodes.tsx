@@ -29,7 +29,7 @@ export const Episodes: React.FC<EpisodesProps> = ({ episodesData }) => {
     };
 
     return (
-        <div>
+        <div className=" overflow-y-auto h-96">
             {episodesData && episodesData.episodes.map((episode, index) => (
                 <div key={episode.id} className="flex flex-row justify-between min-w-full w-full py-2">
                     <div className="flex flex-row">

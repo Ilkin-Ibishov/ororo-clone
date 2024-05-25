@@ -120,7 +120,7 @@ export default function SearchBarMobile() {
             >
                 {result.map((items) => (
                 items.map(item => (
-                    <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()); handleClose() }} to={`/${item.media_type}/${item.id}`}>
+                    <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()); localStorage.setItem("selectedContent", item.media_type); handleClose() }} to={`/${item.media_type}/${item.id}`}>
                         <div className='my-4 mx-2 flex flex-row gap-5'>
                     <img 
                         className=' w-12' 

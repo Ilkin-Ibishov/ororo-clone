@@ -76,7 +76,6 @@ export const ContentList = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  console.log('data', data);
   
   return (
     <div className='md:px-8 lg:px-[5%] px-0 bg-[#ECEFF1]'>

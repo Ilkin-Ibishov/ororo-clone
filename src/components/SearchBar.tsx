@@ -85,6 +85,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [setInputFocused]);
+  const handleClick = (id: string, type: string ) => {
+    localStorage.setItem("directedPageID", id)
+    localStorage.setItem("selectedContent", type)
+  }
   
   return (
     <div ref={containerRef} className='flex flex-col relative' onFocus={() => setInputFocused(true)}>
@@ -103,7 +107,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
         className='w-96 absolute top-12 border-2 h-96 bg-white overflow-y-scroll text-black'>
         {result.map((items) => (
           items.map(item => (
-            <Link key={item.id} onClick={() => { localStorage.setItem("directedPageID", item.id.toString()) }} to={`/${item.media_type}/${item.id}`}>
+            <Link key={item.id} onClick={() => handleClick(item.id.toString(), item.media_type)} to={`/${item.media_type}/${item.id}`}>
               <div className='my-2 mx-2 flex flex-row gap-5'>
                 <img
                   className='w-12'
@@ -118,7 +122,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setInputFocused, isInputFocused }
                 />
                 <div>
                   <div>{item.media_type === 'movie' && 'title' in item ? item?.title : item.name}</div>
-                  <div className=" text-stone-500 text-sm">{item.media_type === 'movie' ? "Movie" : item.media_type === 'tv' ? "Tv Show" : "Actor"}</div>
+                  <div className=" text-stone-500 text-sm">{item.media_type === 'movie' ? "Movie" : item.media_type === 'tv' ? "Tv Show" : (item as Person).gender === 2 ? 'Actor' : 'Actress'}</div>
                 </div>
               </div>
             </Link>

@@ -1,5 +1,5 @@
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+//import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+//import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import HeaderButton from './HeaderButton';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -7,20 +7,20 @@ import SearchBar from './SearchBar';
 import HeaderMobile from './HeaderMobile';
 import { motion } from 'framer-motion';
 
-const languages = [
-  { fullLanguageText: "English", shortLanguageText: "En" },
-  { fullLanguageText: "Italian", shortLanguageText: "It" },
-  { fullLanguageText: "Spanish", shortLanguageText: "Es" },
-  { fullLanguageText: "Polish", shortLanguageText: "Pl" },
-  { fullLanguageText: "Portuguese", shortLanguageText: "Pt" },
-  { fullLanguageText: "Turkish", shortLanguageText: "Tr" },
-];
+// const languages = [
+//   { fullLanguageText: "English", shortLanguageText: "En" },
+//   { fullLanguageText: "Italian", shortLanguageText: "It" },
+//   { fullLanguageText: "Spanish", shortLanguageText: "Es" },
+//   { fullLanguageText: "Polish", shortLanguageText: "Pl" },
+//   { fullLanguageText: "Portuguese", shortLanguageText: "Pt" },
+//   { fullLanguageText: "Turkish", shortLanguageText: "Tr" },
+// ];
 interface Header {
   setselectedContent: React.Dispatch<React.SetStateAction<string>>
 }
 export const Header: React.FC<Header> = ({ setselectedContent}) => {
-  const [currentLanguage, setCurrentLanguage] = useState(languages[0].shortLanguageText);
-  const [islanguageBarVisible, setLanguageBarVisible] = useState(false);
+  //const [currentLanguage, setCurrentLanguage] = useState(languages[0].shortLanguageText);
+  //const [islanguageBarVisible, setLanguageBarVisible] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false)
   const navButtonCss = "bg-[#3d4753] text-white"
   const currentContentType = localStorage.getItem('selectedContent') as string
@@ -61,7 +61,7 @@ export const Header: React.FC<Header> = ({ setselectedContent}) => {
           </Link>
         </div>
         <div className='flex justify-between items-center gap-5'>
-          <div hidden={!islanguageBarVisible} onBlur={() =>{setLanguageBarVisible(false); localStorage.setItem('selectedContent', 'movie')}} className='absolute top-[3.75rem]'>
+          {/* <div hidden={!islanguageBarVisible} onBlur={() =>{setLanguageBarVisible(false); localStorage.setItem('selectedContent', 'movie')}} className='absolute top-[3.75rem]'>
               <div className="triangle-up -top-4 right-0 absolute z-10"></div>
               <div className='bg-[#444b54]'>
                 <div className='w-[236px] min-w-[236px] h-full grid grid-cols-2'>
@@ -70,21 +70,21 @@ export const Header: React.FC<Header> = ({ setselectedContent}) => {
                   ))}
                 </div>
               </div>
-          </div>
+          </div> */}
           <Link to={'/login'}>
             <HeaderButton bgColor={"bg-[#f25423]"} text={"Log in"} isLogin={true} isInputFocused={isInputFocused} />
           </Link>
           <Link to={'/sign-up'}>
             <HeaderButton bgColor={"bg-[#0066E0]"} text={"Sign up"} isLogin={false} isInputFocused={isInputFocused} />
           </Link>
-          <div hidden={isInputFocused}>
+          {/* <div hidden={isInputFocused}>
             <div onClick={()=>setLanguageBarVisible(!islanguageBarVisible)} className='flex flex-row'>
               <div className='min-w-5'>
                 {currentLanguage}
               </div>
               {islanguageBarVisible?<KeyboardArrowUpIcon />:<KeyboardArrowDownIcon />}
             </div>
-          </div>
+          </div> */}
           <SearchBar setInputFocused={setInputFocused} isInputFocused={isInputFocused} />
         </div>
       </div>

@@ -48,7 +48,7 @@ const MultipleSelectChip: React.FC<MultipleSelectChip> = ({ genresTypes }) => {
   };
   localStorage.setItem('selectedGenres', JSON.stringify(genreName))
   return (
-    <div className='flex'>
+    <div className='flex md:flex-row flex-col items-center'>
       <FormControl sx={{ m: 1, width: 300, border: "1px, solid, black" }}>
         <Select
           labelId="demo-multiple-chip-label"
@@ -88,7 +88,7 @@ const MultipleSelectChip: React.FC<MultipleSelectChip> = ({ genresTypes }) => {
           ))}
         </Select>
       </FormControl>
-      <button onClick={() => setGenreName([])}>Clear</button>
+      <button onClick={() => setGenreName([])} className=' md:ml-4 px-4 text-white h-10 text-nowrap bg-red-500 rounded-lg transition duration-200'>Clear Genres</button>
     </div>
   );
 }

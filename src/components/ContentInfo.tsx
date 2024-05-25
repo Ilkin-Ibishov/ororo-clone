@@ -18,7 +18,7 @@ export const ContentInfo: React.FC<ContentInfoProps> = ({ data }) => {
         <p>Release year: {contentType === 'tv' ? (data as TVShow)?.first_air_date.substring(0, 4) : (data as Movie)?.release_date}</p>
         <div>
           <span>Genres:</span>
-          <div className='grid grid-cols-3 gap-2 w-64'>
+          <div className='grid grid-cols-2 gap-2 w-64'>
             {data.genres.map((genre, index) => (
               <span key={index} className="text-nowrap py-1 text-sm px-3 bg-blue-600 text-white text-center rounded-lg">{genre.name}</span>
             ))}

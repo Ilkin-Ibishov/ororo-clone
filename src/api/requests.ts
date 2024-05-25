@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { VideoResult } from '../types/ShowTypes';
+import { ResponseForPerson } from '../types/PersonType';
 const Auth_Token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGMxOTYzOGRhYjE5MDBhNWNlZDRkMzgwM2M4OGZkMSIsInN1YiI6IjY2NDI1NmY4YzYxYTQyNGEzNGU3ZjU3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2ciyG6SR6CZYOFyoII0j6QUKAVviuNu1OV_q-k8e8q0"
 
 export const orderOptionsMovie = [
@@ -172,21 +173,70 @@ export const getSpecificMovie = async(id:string)=>{
 }
 
 export const getPerson = async (id: string) => {
+  const urlPerson = `https://api.themoviedb.org/3/person/${id}`
+  const urlPersonTvCredits = `https://api.themoviedb.org/3/person/${id}/tv_credits`
+  const urlPersonMovieCredits = `https://api.themoviedb.org/3/person/${id}/movie_credits`
+  const urlPersonImages = `https://api.themoviedb.org/3/person/${id}/images`
+  let resultObj = {
+    person: {},
+    personTvCredits: {},
+    personMovieCredits: {},
+    personImages: {}
+  }
   const options = {
     method: 'GET',
-    url: `https://api.themoviedb.org/3/person/${id}`,
     headers: {
       accept: 'application/json',
       Authorization: `Bearer ${Auth_Token}`
     }
   };
   
-  axios
-    .request(options)
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
+  try {
+    resultObj.person = (await axios.get(urlPerson, options)).data
+    resultObj.personTvCredits = (await axios.get(urlPersonTvCredits, options)).data
+    resultObj.personMovieCredits = (await axios.get(urlPersonMovieCredits, options)).data
+    resultObj.personImages = (await axios.get(urlPersonImages, options)).data
+    return resultObj as ResponseForPerson;
+  } catch (error) {
+    console.error('error: ' + error);
+    throw error;
+  }
+}
+
+export const getPersonTVShowCredits = async (id: string) => {
+  const url = `https://api.themoviedb.org/3/person/${id}/tv_credits`
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${Auth_Token}`
+    }
+  };
+  
+  try {
+    const response = await axios.get(url, options);
+    return response.data;
+  } catch (error) {
+    console.error('error: ' + error);
+    throw error;
+  }
+}
+
+export const getPersonMovieCredits = async (id: string) => {
+  const url = `https://api.themoviedb.org/3/person/${id}/movie_credits`
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${Auth_Token}`
+    }
+  };
+  
+  try {
+    const response = await axios.get(url, options);
+    return response.data;
+  } catch (error) {
+    console.error('error: ' + error);
+    throw error;
+  }
 }
