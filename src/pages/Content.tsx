@@ -9,6 +9,7 @@ import MovieContent from "../components/MovieContent";
 import { TVShow } from "../types/ShowTypes";
 import { Movie } from "../types/MovieTypes";
 import { getSpecificMovie } from "../api/requests";
+import RecommendedContents from "../components/RecommendedContents";
 
 interface Contentpage {
   setselectedContent: React.Dispatch<React.SetStateAction<string>>;
@@ -59,7 +60,7 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
         return () => {
         document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, []);
+    }, [])
     
   return (
     <div className="w-full h-full md:-mx-5 mx-0">
@@ -88,7 +89,7 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
             </div>
             <ContentInfo data={data} />
           </div>
-          <div className="md:w-[70%] w-full md:pl-16">
+          <div className="md:w-[70%] w-full">
             <div className="pb-5">
               <h2 className="text-xl font-bold md:block hidden">{selectedContent === 'tv'
                 ? (data as TVShow)?.name
@@ -99,6 +100,7 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
             {data !== null && id !==null && selectedContent==='tv'
               ? <TvShowContent data={data as TVShow} id={id} />
               :selectedContent==='movie' && <MovieContent data={data as Movie} trailer={trailerLinks[0] as string} />}
+              <RecommendedContents />
           </div>
         </div>
     </div>

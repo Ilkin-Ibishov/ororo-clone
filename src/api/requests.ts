@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { VideoResult } from '../types/ShowTypes';
 import { ResponseForPerson } from '../types/PersonType';
+import { SearchResponse } from '../types/types';
 const Auth_Token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOGMxOTYzOGRhYjE5MDBhNWNlZDRkMzgwM2M4OGZkMSIsInN1YiI6IjY2NDI1NmY4YzYxYTQyNGEzNGU3ZjU3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.2ciyG6SR6CZYOFyoII0j6QUKAVviuNu1OV_q-k8e8q0"
 
 export const orderOptionsMovie = [
@@ -46,7 +47,7 @@ export const getContent=async(selectedContent:string, page:number, sort_by:strin
       sort_by: sort_by,
       with_genres: selectedGenreIds,
       with_original_language: 'en',
-      with_origin_country: 'US|GB|NZ|AU|CA',
+      with_origin_country: 'US|GB|NZ|AU|CA|FR|GE|ES|IT',
     }
     
   }
@@ -235,6 +236,29 @@ export const getPersonMovieCredits = async (id: string) => {
   try {
     const response = await axios.get(url, options);
     return response.data;
+  } catch (error) {
+    console.error('error: ' + error);
+    throw error;
+  }
+}
+
+export const getRecommendedContents = async (id: string) => {
+  const selectedContent = localStorage.getItem('selectedContent') as string
+  const urlPageOne = `https://api.themoviedb.org/3/${selectedContent}/${id}/recommendations?page=1`
+  const urlPageTwo = `https://api.themoviedb.org/3/${selectedContent}/${id}/recommendations?page=2`
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${Auth_Token}`
+    }
+  };
+  
+  try {
+    const responsePageOne: SearchResponse = (await axios.get(urlPageOne, options)).data
+    const responsePageTwo: SearchResponse = (await axios.get(urlPageTwo, options)).data
+    const result = [ ...responsePageOne.results, ...responsePageTwo.results ];
+    return result
   } catch (error) {
     console.error('error: ' + error);
     throw error;
