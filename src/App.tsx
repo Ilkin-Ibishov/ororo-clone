@@ -17,6 +17,7 @@ function App() {
       <SelectedContentProvider>
         <Routes>
           <Route path="/" element={<Navigate to="/tv" />} />
+          <Route path="" element={<Navigate to="/tv" />} />
           <Route path="/tv" element={<Home setselectedContent={setselectedContent} />} />
           <Route path="/tv/:contentName" element={<Contentpage setselectedContent={setselectedContent} />} />
           <Route path="/movie" element={<Home setselectedContent={setselectedContent} />} />

@@ -6,8 +6,8 @@ interface HeaderMobile {
     setselectedContent: React.Dispatch<React.SetStateAction<string>>
   }
 const HeaderMobile: React.FC<HeaderMobile> = ({setselectedContent}) => {
-  return (<div>
-    <div className='z-30 absolute w-10 h-20 '><MobileNav /></div>
+  return (<div className=' z-50'>
+    <div className=' z-50 absolute w-10 h-20 '><MobileNav /></div>
     <div className='flex z-20 sticky top-0 flex-row justify-between items-center bg-[#2E353D] h-[3.75rem] w-full '>
         <div className='z-10 w-20 h-10'></div>
         <Link 

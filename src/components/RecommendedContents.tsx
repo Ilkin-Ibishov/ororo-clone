@@ -34,11 +34,11 @@ const RecommendedContents = () => {
   }, []);
 
   return (
-    <div className="md:mt-20 mt-5">
+    <div className="md:my-20 my-5">
         <span className=" text-black text-2xl">Similar {selectedContent === 'tv'? 'Tv Shows' : 'Movies'}</span>
         <div
         ref={scrollRef}
-        className='gap-x-3 gap-y-10 md:gap-6 flex overflow-x-scroll overflow-y-hidden cssClass-text w-full h-96 items-center'
+        className='gap-x-3 gap-y-10 md:gap-6 flex overflow-x-scroll overflow-y-hidden cssClass-text w-full md:h-96 h-44 items-center'
         >
             {data.filter((item) => item.poster_path !== null).map((item) => (
             <ContentListCard key={item.id} item={item} genresTypes={genresTypes} />

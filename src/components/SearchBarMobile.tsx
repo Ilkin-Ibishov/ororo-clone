@@ -134,7 +134,7 @@ export default function SearchBarMobile() {
                         />
                     <div>
                         <div>{item.media_type === 'movie' && 'title' in item? item?.title : item.name}</div>
-                        <div>{item.media_type === 'movie'?"Movie": item.media_type === 'tv'? "Tv Show": "Actor"}</div>
+                        <div>{item.media_type === 'movie' ? "Movie" : item.media_type === 'tv' ? "Tv Show" : (item as Person).gender === 2 ? 'Actor' : 'Actress'}</div>
                     </div>
                     </div>
                     </Link>
