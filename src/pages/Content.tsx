@@ -45,6 +45,7 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
             getSpecificMovie(id).then((response)=> setData(response))
             getTrailers(id, selectedContent).then((response) => setTrailerLinks(response))
         }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [id])
 
     const handleTrailerClick = (index: number) => {
@@ -60,7 +61,10 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
         return () => {
         document.removeEventListener("mousedown", handleClickOutside);
         };
+        
     }, [])
+
+    
     
   return (
     <div className="w-full h-full md:-mx-5 mx-0">

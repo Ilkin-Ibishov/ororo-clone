@@ -24,7 +24,7 @@
 
 .description-css{
 	color: #BBC2C4;
-	font-size: 13px;
+	font-size:11px;
 	display: -webkit-box;
 	-webkit-line-clamp: 11;
 	-webkit-box-orient: vertical;
@@ -32,6 +32,7 @@
 	text-overflow: ellipsis;
 	height: 20em;
 	line-height: 1.5em;
+	font-family: Verdana, Tahoma, sans-serif;
 }
 .cssClass-text div{
 	color: #EDF4FA;

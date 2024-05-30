@@ -19,13 +19,15 @@ export const TvShowContent: React.FC<ContentInfoProps>=({data, id})=>{
     const [episodesData, setEpisodesData] = useState<SelectedTVShow | null>(null)
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         event.target
-        setValue(newValue);
-    };
+        setValue(newValue)
+    }
     useEffect(() => {
         const currentId = Number(localStorage.getItem('directedPageID')) as number
         getContenteasonEpisodes(currentId, data.seasons[value].season_number).then(response=> setEpisodesData(response))
     }, [value, id])
-    
+    useEffect(() => {
+      setValue(0)
+    }, [id])
     
     return (<>
         <Box sx={{ maxWidth: { xs: 600, sm: 800 }, bgcolor: 'background.paper' }}>
@@ -35,7 +37,7 @@ export const TvShowContent: React.FC<ContentInfoProps>=({data, id})=>{
                 variant="scrollable"
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
-                allowScrollButtonsMobile 
+                allowScrollButtonsMobile
             >
                 {data && data.seasons.map((season)=>(
                     <Tab key={season.id} label={season.name} />

@@ -30,6 +30,7 @@ const Person: React.FC<Person> = ({setselectedContent}) => {
     if (id && selectedContent === 'person') {
       getPerson(id).then((response) => setData(response))
   }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [id])
   
   return (<>

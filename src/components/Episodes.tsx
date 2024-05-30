@@ -15,7 +15,6 @@ export const Episodes: React.FC<EpisodesProps> = ({ episodesData }) => {
         const episodeDate = new Date(dateString);
         const currentDate = new Date();
         const timeDifference = currentDate.getTime() - episodeDate.getTime();
-
         const years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365));
         const months = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30));
         const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));

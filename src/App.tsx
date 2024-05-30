@@ -3,7 +3,6 @@ import { Home } from "./pages/Home";
 import { Contentpage } from "./pages/Content"
 import { useState } from 'react';
 import { SelectedContentProvider } from './SelectedContentContext';
-import ScrollToTopButton from "./components/ScrollToTopButton";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import NoPage from "./components/NoPage";
@@ -27,7 +26,6 @@ function App() {
           <Route path="/login" element={<Login setselectedContent={setselectedContent} />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
-        <ScrollToTopButton />
       </SelectedContentProvider>
     </>
   );
