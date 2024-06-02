@@ -142,7 +142,7 @@ export default function SearchBarMobile() {
                 ))}
             </div>
         </DialogContent>
-        <DialogActions className=' text-white bg-[#2E353D] w-full'>
+        <DialogActions className=' text-white bg-primary w-full'>
           <button className='mx-auto' onClick={handleClose}>Close</button>
         </DialogActions>
       </Dialog>

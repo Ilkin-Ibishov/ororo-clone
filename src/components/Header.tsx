@@ -28,7 +28,7 @@ export const Header: React.FC<Header> = ({ setselectedContent}) => {
   return (
     <>
       <div className="block md:hidden h-full w-full sticky top-0"><HeaderMobile setselectedContent={setselectedContent} /></div>
-      <div className='md:flex hidden z-50 sticky top-0 flex-row items-center justify-between px-20 bg-[#2E353D] h-[3.75rem] min-w-[50rem] w-full  text-color-css-header'>
+      <div className='md:flex hidden z-50 sticky top-0 flex-row items-center justify-between px-20 bg-primary h-[3.75rem] min-w-[50rem] w-full  text-color-css-header'>
         <div className='flex flex-row'>
           <Link 
             to={'/'} 

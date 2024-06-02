@@ -264,3 +264,25 @@ export const getRecommendedContents = async (id: string) => {
     throw error;
   }
 }
+
+export const getContentReviews = async () => {
+  const selectedContent = localStorage.getItem('selectedContent') as string;
+  const directedPageID = localStorage.getItem('directedPageID') as string;
+  const url = `https://api.themoviedb.org/3/${selectedContent}/${directedPageID}/reviews?language=en-US&page=1`
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${Auth_Token}`
+    }
+  };
+  
+  try {
+    const response = await axios.get(url, options);
+    return response.data;
+  } catch (error) {
+    console.error('error: ' + error);
+    throw error;
+  }
+
+}

@@ -43,7 +43,7 @@ export const FilterList: React.FC<FilterList> = ({
       <motion.button
         whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-[#2E353D] cursor-pointer text-center flex flex-row justify-between px-3 items-center text-white h-10 w-40 text-nowrap"
+        className="bg-primary cursor-pointer text-center flex flex-row justify-between px-3 items-center text-white h-10 w-40 text-nowrap"
       >
         <span onClick={() => setIsOpen(!isOpen)} >
           {orderOptions?.find((option) => option.value === selectedSortBy)?.text ?? orderOptions[0].text}
@@ -92,7 +92,7 @@ export const FilterList: React.FC<FilterList> = ({
             key={item.value}
             variants={itemVariants}
             onClick={() => {setSelectedSortBy(item.value), setIsOpen(false)}}
-            className="bg-white text-black py-1 text-left pl-4 hover:bg-[#2196f3] hover:pl-6 hover:text-white cursor-pointer"
+            className="bg-white text-black py-1 text-left pl-4 hover:bg-secondary hover:pl-6 hover:text-white cursor-pointer"
           >
             {item.text}
           </motion.li>

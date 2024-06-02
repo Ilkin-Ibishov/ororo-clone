@@ -8,7 +8,7 @@ interface HeaderMobile {
 const HeaderMobile: React.FC<HeaderMobile> = ({setselectedContent}) => {
   return (<div className=' z-50'>
     <div className=' z-50 absolute w-10 h-20 '><MobileNav /></div>
-    <div className='flex z-20 sticky top-0 flex-row justify-between items-center bg-[#2E353D] h-[3.75rem] w-full '>
+    <div className='flex z-20 sticky top-0 flex-row justify-between items-center bg-primary h-[3.75rem] w-full '>
         <div className='z-10 w-20 h-10'></div>
         <Link 
           to={'/tv'} 

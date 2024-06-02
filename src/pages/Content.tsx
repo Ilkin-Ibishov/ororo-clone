@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { Header } from "../components/Header";
 import { getSpecificShow, getTrailers } from "../api/requests";
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
@@ -10,6 +10,7 @@ import { TVShow } from "../types/ShowTypes";
 import { Movie } from "../types/MovieTypes";
 import { getSpecificMovie } from "../api/requests";
 import RecommendedContents from "../components/RecommendedContents";
+import Reviews from "../components/Reviews";
 
 interface Contentpage {
   setselectedContent: React.Dispatch<React.SetStateAction<string>>;
@@ -17,12 +18,12 @@ interface Contentpage {
 
 export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
     const selectedContent = localStorage.getItem('selectedContent') as string
-    const [id, setId] = useState(localStorage.getItem("directedPageID") || "");
-    const [data, setData] = useState<TVShow | Movie | null>(null);
-    const [trailerLinks, setTrailerLinks] = useState<string[]>([]);
-    const [clickedTrailerIndex, setClickedTrailerIndex] = useState<number>(-1);
-    const overlayRef = useRef<HTMLDivElement>(null);
-    const idRef = useRef<string>(id);
+    const [id, setId] = useState(localStorage.getItem("directedPageID") || "")
+    const [data, setData] = useState<TVShow | Movie | null>(null)
+    const [trailerLinks, setTrailerLinks] = useState<string[]>([])
+    const [clickedTrailerIndex, setClickedTrailerIndex] = useState<number>(-1)
+    const overlayRef = useRef<HTMLDivElement>(null)
+    const idRef = useRef<string>(id)
     
     useEffect(() => {
         const interval = setInterval(() => {
@@ -64,7 +65,13 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
         
     }, [])
 
-    
+    const memoizedReviews = useMemo(() => {
+      return <Reviews />
+    }, [selectedContent, id])
+
+    const memoizedRecommendedContents = useMemo(() => {
+      return <RecommendedContents />
+    }, [selectedContent, id])
     
   return (
     <div className="w-full h-full md:-mx-5 mx-0">
@@ -95,7 +102,7 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
           </div>
           <div className="md:w-[70%] w-full">
             <div className="pb-5">
-              <h2 className="text-xl font-bold md:block hidden">{selectedContent === 'tv'
+              <h2 className="text-xl font-bold md:block hidden pb-3">{selectedContent === 'tv'
                 ? (data as TVShow)?.name
                 : (data as Movie)?.title}</h2>
               <h2 className="text-xl font-bold block md:hidden">Description</h2>
@@ -104,7 +111,8 @@ export const Contentpage: React.FC<Contentpage> = ({ setselectedContent }) => {
             {data !== null && id !==null && selectedContent==='tv'
               ? <TvShowContent data={data as TVShow} id={id} />
               :selectedContent==='movie' && <MovieContent data={data as Movie} trailer={trailerLinks[0] as string} />}
-              <RecommendedContents />
+              {memoizedRecommendedContents}
+              {memoizedReviews}
           </div>
         </div>
     </div>

@@ -88,7 +88,7 @@ export const ContentList = () => {
             <div className='pl-2'>{selectedContent === 'tv' ? 'Tv Shows' : 'Movies'}</div>
           </span>
         </div>
-        <div onClick={() => setFilterHidden(!isFilterHidden)} className="md:w-1/3 w-80 h-10 border-r-4 min-w-[250px] bg-[#2196f3] flex justify-center items-center cursor-pointer">
+        <div onClick={() => setFilterHidden(!isFilterHidden)} className="md:w-1/3 w-80 h-10 border-r-4 min-w-[250px] bg-secondary flex justify-center items-center cursor-pointer">
           <FilterAltIcon htmlColor='white' />
           <span className='text-white flex flex-row'>
             <div>Choose</div>
@@ -96,7 +96,7 @@ export const ContentList = () => {
           </span>
         </div>
         <div className='flex flex-row'>
-          <div className='bg-[#2E353D] h-10 w-10 p-1 flex justify-center items-center border-r-4 cursor-pointer'>
+          <div className='bg-primary h-10 w-10 p-1 flex justify-center items-center border-r-4 cursor-pointer'>
             {orderType === 'asc'
               ? <img onClick={() => setOrderType('desc')} src={ascendingIcon} alt="" />
               : <img onClick={() => setOrderType('asc')} src={descendingIcon} alt="" />}

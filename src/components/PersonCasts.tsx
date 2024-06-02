@@ -28,7 +28,7 @@ const PersonCasts: React.FC<PersonCastsProps> = ({ data, mediaType }) => {
   return (
   <div ref={scrollRef} className="grid grid-flow-col z-10 overflow-x-scroll w-full h-full gap-1">
     {showType?.map((show, index) => (
-    <div key={index} className=" relative w-52 h-72 bg-[#2E353D] p-1 rounded-sm text-white" hidden={show.backdrop_path === null || show.genre_ids.includes(10767) || show.genre_ids.includes(10763) || show.genre_ids.length === 0 }>
+    <div key={index} className=" relative w-52 h-72 bg-primary p-1 rounded-sm text-white" hidden={show.backdrop_path === null || show.genre_ids.includes(10767) || show.genre_ids.includes(10763) || show.genre_ids.length === 0 }>
       <img src={`https://image.tmdb.org/t/p/w500${show?.backdrop_path || ''}`} alt="Movie photo" />
       <div className="flex flex-col py-1">
         <span className="text-center">{mediaType === 'movie' ? (show as CastMemberForMovie).title : (show as CastMemberForTvShow).name}</span>
